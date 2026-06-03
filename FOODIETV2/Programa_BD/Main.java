@@ -2,19 +2,26 @@ public class Main {
 
     public static void main(String[] args) {
 
-        PacienteDAO pacienteDAO =
+        Persona persona1 =
+                new Paciente(
+                        1,
+                        "Ana López"
+                );
+
+        Persona persona2 =
+                new Nutricionista(
+                        2,
+                        "Laura Martínez"
+                );
+
+        persona1.mostrarInformacion();
+        persona2.mostrarInformacion();
+
+        PacienteDAO dao =
                 new PacienteDAO();
 
-        pacienteDAO.insertarPaciente(
-                "Ana",
-                "Lopez",
-                68,
-                1.65
+        dao.insertarPaciente(
+                (Paciente) persona1
         );
-
-        PlanAlimenticioDAO planDAO =
-                new PlanAlimenticioDAO();
-
-        planDAO.mostrarPlanes();
     }
 }

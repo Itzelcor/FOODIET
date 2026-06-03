@@ -5,37 +5,32 @@ import java.sql.SQLException;
 public class PacienteDAO {
 
     public void insertarPaciente(
-            String nombre,
-            String apellidos,
-            double peso,
-            double altura) {
+            Paciente paciente) {
 
         String sql =
-                "INSERT INTO Paciente " +
-                "(nombre, apellidos, peso, altura) " +
-                "VALUES (?, ?, ?, ?)";
+        "INSERT INTO Paciente(nombre) VALUES(?)";
 
         try {
 
-            Connection conexion =
+            Connection con =
                     ConexionBD.conectar();
 
             PreparedStatement ps =
-                    conexion.prepareStatement(sql);
+                    con.prepareStatement(sql);
 
-            ps.setString(1, nombre);
-            ps.setString(2, apellidos);
-            ps.setDouble(3, peso);
-            ps.setDouble(4, altura);
+            ps.setString(
+                    1,
+                    paciente.getNombre()
+            );
 
             ps.executeUpdate();
 
             System.out.println(
-                    "Paciente insertado."
+                    "Paciente guardado."
             );
 
             ps.close();
-            conexion.close();
+            con.close();
 
         } catch (SQLException e) {
 
