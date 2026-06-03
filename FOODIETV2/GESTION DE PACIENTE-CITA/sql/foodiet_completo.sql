@@ -1,6 +1,5 @@
 -- ============================================================
 -- FOODIET - SISTEMA INTEGRAL PARA CONSULTAS DE DIETÉTICA
--- Script completo: Creación, inserción, consultas, vistas y procedimientos
 -- ============================================================
 
 -- ==================== CREACIÓN DE TABLAS ====================
