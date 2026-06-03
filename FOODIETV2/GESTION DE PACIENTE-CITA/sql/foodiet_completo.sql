@@ -1,247 +1,379 @@
 -- ============================================================
--- FOODIET - SISTEMA INTEGRAL PARA CONSULTAS DE DIETÉTICA
+--  FooDiet – Base de Datos Corregida y Documentada
+--  IES Font de San Lluis · 1 DAW PID 2025-2026
+--  Revisión: Mayo 2025
+-- ============================================================
+-- CAMBIOS GLOBALES APLICADOS:
+--   · Naming unificado a snake_case minúsculas en todas las tablas
+--   · VARCHAR ajustados a longitudes realistas
+--   · NOT NULL aplicado en todos los campos obligatorios
+--   · CHECK añadido donde se enumeran valores posibles
+--   · ON DELETE / ON UPDATE definidos en todas las FK
+--   · Tablas nuevas: usuario, alergia, paciente_alergia,
+--     menu_diario, factura, horario_profesional
+--   · Campos añadidos: modalidad en citas, altura/sexo/email
+--     en paciente, fecha_fin en plan_dietetico,
+--     macronutrientes en alimento, id_paciente en panel_progreso
 -- ============================================================
 
--- ==================== CREACIÓN DE TABLAS ====================
+DROP DATABASE IF EXISTS FooDiet;
+CREATE DATABASE FooDiet
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_spanish_ci;
+USE FooDiet;
 
-CREATE DATABASE IF NOT EXISTS Foodiet;
-USE Foodiet;
 
--- Tabla de usuarios (autenticación y roles)
-CREATE TABLE usuarios (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    contraseña_hash VARCHAR(255) NOT NULL,
-    rol ENUM('administrador', 'nutricionista', 'paciente') NOT NULL DEFAULT 'paciente',
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    activo BOOLEAN DEFAULT TRUE
+-- ============================================================
+-- BLOQUE 0 · AUTENTICACIÓN Y ROLES
+-- ============================================================
+-- Tabla nueva: no existía en la versión original.
+-- El diagrama de clases tenía la clase Usuario con login() y
+-- logout() pero no había tabla correspondiente en el SQL.
+-- Necesaria para el módulo de autenticación (requisito del proyecto).
+-- ============================================================
+
+CREATE TABLE usuario (
+    id_usuario   INT          NOT NULL AUTO_INCREMENT,
+    email        VARCHAR(100) NOT NULL,               -- ampliado de 30 a 100
+    password_hash VARCHAR(255) NOT NULL,              -- hash bcrypt, nunca plano
+    rol          VARCHAR(20)  NOT NULL,
+    activo       TINYINT(1)   NOT NULL DEFAULT 1,
+    fecha_alta   DATE         NOT NULL,
+    CONSTRAINT PK_usuario      PRIMARY KEY (id_usuario),
+    CONSTRAINT UQ_usuario_email UNIQUE (email),
+    CONSTRAINT CHK_usuario_rol  CHECK (rol IN ('paciente', 'nutricionista', 'entrenador', 'dietista', 'administrativo'))
 );
 
--- Tabla de pacientes
-CREATE TABLE pacientes (
-    id_paciente INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT UNIQUE NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    apellido VARCHAR(50) NOT NULL,
-    edad INT NOT NULL CHECK (edad > 0 AND edad < 150),
-    peso DECIMAL(5,2) NOT NULL CHECK (peso > 0),
-    altura DECIMAL(4,2) NOT NULL CHECK (altura > 0 AND altura < 3),
-    telefono VARCHAR(20),
-    direccion VARCHAR(255),
-    historial_medico TEXT,
-    objetivos_nutricionales TEXT,
-    tipo_paciente ENUM('Joven', 'Adulto', 'Jubilado') NOT NULL DEFAULT 'Adulto',
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+
+-- ============================================================
+-- BLOQUE 1 · PACIENTES
+-- ============================================================
+-- Correcciones aplicadas:
+--   · "dirección" → "direccion" (sin tilde, evita errores de encoding)
+--   · dni NOT NULL (es el identificador real del paciente)
+--   · Añadidos: telefono, email, sexo, altura, fecha_registro
+--   · altura necesaria para calcular IMC (objetivo del proyecto)
+--   · id_usuario FK para vincular con el sistema de login
+--   · tipo_paciente gestiona la herencia del diagrama de clases
+--     (PacienteJubilado, PacienteAdulto, PacienteJoven) mediante
+--     herencia de tabla única (Single Table Inheritance)
+-- ============================================================
+
+CREATE TABLE paciente (
+    id_paciente     INT          NOT NULL AUTO_INCREMENT,
+    id_usuario      INT          NOT NULL,
+    dni             VARCHAR(9)   NOT NULL,
+    nombre          VARCHAR(50)  NOT NULL,             -- ampliado de 30 a 50
+    apellidos       VARCHAR(100) NOT NULL,             -- "apellido" → "apellidos"
+    telefono        VARCHAR(15)  NOT NULL,             -- campo nuevo, era necesario
+    email           VARCHAR(100) NOT NULL,             -- campo nuevo
+    direccion       VARCHAR(150) NOT NULL,             -- sin tilde; ampliado a 150
+    fecha_nac       DATE         NOT NULL,
+    sexo            CHAR(1)      NOT NULL,             -- campo nuevo para cálculos
+    altura          DECIMAL(5,2) NOT NULL,             -- campo nuevo (metros) para IMC
+    tipo_paciente   VARCHAR(20)  NOT NULL DEFAULT 'adulto', -- herencia del diagrama
+    fecha_registro  DATE         NOT NULL,             -- campo nuevo: cuándo se registró
+    CONSTRAINT PK_paciente         PRIMARY KEY (id_paciente),
+    CONSTRAINT UQ_paciente_dni     UNIQUE (dni),
+    CONSTRAINT UQ_paciente_email   UNIQUE (email),
+    CONSTRAINT FK_paciente_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    CONSTRAINT CHK_paciente_sexo   CHECK (sexo IN ('M', 'F', 'X')),
+    CONSTRAINT CHK_tipo_paciente   CHECK (tipo_paciente IN ('jubilado', 'adulto', 'joven'))
 );
 
--- Tabla de profesionales (nutricionistas)
-CREATE TABLE profesionales (
-    id_profesional INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT UNIQUE NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    apellido VARCHAR(50) NOT NULL,
-    especialidad VARCHAR(100) NOT NULL,
-    años_experiencia INT NOT NULL CHECK (años_experiencia >= 0),
-    horario VARCHAR(255),
-    telefono VARCHAR(20),
-    activo BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+-- Tabla nueva: alergias e intolerancias
+-- El proyecto indica explícitamente "control de alergias,
+-- intolerancias y restricciones alimentarias" como requisito.
+-- No existía ninguna representación en el SQL original.
+CREATE TABLE alergia (
+    id_alergia  INT          NOT NULL AUTO_INCREMENT,
+    nombre      VARCHAR(100) NOT NULL,
+    tipo        VARCHAR(20)  NOT NULL,
+    descripcion VARCHAR(200),
+    CONSTRAINT PK_alergia      PRIMARY KEY (id_alergia),
+    CONSTRAINT CHK_alergia_tipo CHECK (tipo IN ('alergia', 'intolerancia', 'restriccion'))
 );
 
--- Tabla de citas (presenciales y online)
-CREATE TABLE citas (
-    id_cita INT AUTO_INCREMENT PRIMARY KEY,
+-- Tabla nueva: relación N:M entre paciente y alergia
+CREATE TABLE paciente_alergia (
     id_paciente INT NOT NULL,
-    id_profesional INT NOT NULL,
-    fecha_cita DATE NOT NULL,
-    hora_cita TIME NOT NULL,
-    modalidad ENUM('presencial', 'online') NOT NULL,
-    estado ENUM('pendiente', 'confirmada', 'completada', 'cancelada') NOT NULL DEFAULT 'pendiente',
-    motivo VARCHAR(500),
-    enlace_online VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente) ON DELETE CASCADE,
-    FOREIGN KEY (id_profesional) REFERENCES profesionales(id_profesional) ON DELETE CASCADE
+    id_alergia  INT NOT NULL,
+    severidad   VARCHAR(20) NOT NULL DEFAULT 'moderada',
+    CONSTRAINT PK_paciente_alergia   PRIMARY KEY (id_paciente, id_alergia),
+    CONSTRAINT FK_pac_alergia_pac    FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_pac_alergia_aler   FOREIGN KEY (id_alergia)  REFERENCES alergia (id_alergia)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT CHK_severidad         CHECK (severidad IN ('leve', 'moderada', 'grave'))
 );
 
--- Tabla de pagos y facturación
-CREATE TABLE pagos (
-    id_pago INT AUTO_INCREMENT PRIMARY KEY,
-    id_cita INT NOT NULL UNIQUE,
-    monto DECIMAL(8,2) NOT NULL CHECK (monto > 0),
-    metodo_pago ENUM('efectivo', 'tarjeta', 'transferencia', 'bizum') NOT NULL,
-    estado_pago ENUM('pendiente', 'pagado', 'reembolsado') NOT NULL DEFAULT 'pendiente',
-    fecha_pago DATETIME,
-    numero_factura VARCHAR(50) UNIQUE,
-    FOREIGN KEY (id_cita) REFERENCES citas(id_cita) ON DELETE CASCADE
+
+-- ============================================================
+-- BLOQUE 2 · PROFESIONALES
+-- ============================================================
+-- Correcciones aplicadas:
+--   · email ampliado de 30 a 100 caracteres
+--   · nombre en especialidades ampliado de 20 a 100
+--   · descripcion en especialidades ampliado de 50 a 200
+--   · Añadido campo "activo" para baja lógica sin borrar registros
+--   · Añadido campo "fecha_alta"
+--   · id_usuario FK para vincular con login
+-- ============================================================
+
+CREATE TABLE especialidad (                           -- nombre en singular (convención)
+    id_especialidad INT          NOT NULL AUTO_INCREMENT,
+    nombre          VARCHAR(100) NOT NULL,            -- ampliado de 20 a 100
+    descripcion     VARCHAR(200),                    -- ampliado de 50 a 200
+    CONSTRAINT PK_especialidad PRIMARY KEY (id_especialidad)
 );
 
--- Tabla de planes de alimentación
-CREATE TABLE planes_alimentacion (
-    id_plan INT AUTO_INCREMENT PRIMARY KEY,
-    id_paciente INT NOT NULL,
-    id_profesional INT NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE,
-    objetivo VARCHAR(255),
-    descripcion TEXT,
+CREATE TABLE profesional (                           -- nombre en singular (convención)
+    id_profesional  INT          NOT NULL AUTO_INCREMENT,
+    id_usuario      INT          NOT NULL,
+    id_especialidad INT,
+    nom_completo    VARCHAR(100) NOT NULL,
+    email           VARCHAR(100) NOT NULL UNIQUE,    -- ampliado de 30 a 100
+    telefono        CHAR(9),
+    anos_exp        INT          NOT NULL DEFAULT 0,
+    activo          TINYINT(1)   NOT NULL DEFAULT 1, -- campo nuevo: baja lógica
+    fecha_alta      DATE         NOT NULL,           -- campo nuevo
+    CONSTRAINT PK_profesional         PRIMARY KEY (id_profesional),
+    CONSTRAINT FK_prof_usuario        FOREIGN KEY (id_usuario)      REFERENCES usuario (id_usuario)
+        ON DELETE RESTRICT  ON UPDATE CASCADE,
+    CONSTRAINT FK_prof_especialidad   FOREIGN KEY (id_especialidad) REFERENCES especialidad (id_especialidad)
+        ON DELETE SET NULL  ON UPDATE CASCADE
+);
+
+-- Tabla nueva: gestión de horarios, vacaciones y sustituciones
+-- Requisito del subsistema "Gestión del Equipo Profesional".
+-- No existía en el SQL original.
+CREATE TABLE horario_profesional (
+    id_horario      INT         NOT NULL AUTO_INCREMENT,
+    id_profesional  INT         NOT NULL,
+    dia_semana      TINYINT     NOT NULL,            -- 1=lunes … 7=domingo
+    hora_inicio     TIME        NOT NULL,
+    hora_fin        TIME        NOT NULL,
+    tipo            VARCHAR(20) NOT NULL DEFAULT 'laboral',
+    CONSTRAINT PK_horario           PRIMARY KEY (id_horario),
+    CONSTRAINT FK_horario_prof      FOREIGN KEY (id_profesional) REFERENCES profesional (id_profesional)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT CHK_horario_tipo     CHECK (tipo IN ('laboral', 'vacaciones', 'sustitucion', 'festivo')),
+    CONSTRAINT CHK_horario_horas    CHECK (hora_fin > hora_inicio)
+);
+
+
+-- ============================================================
+-- BLOQUE 3 · PLANES DIETÉTICOS
+-- ============================================================
+-- Correcciones aplicadas:
+--   · estado con CHECK (era varchar libre sin restricción)
+--   · Añadida fecha_fin (faltaba en la versión original)
+--   · FK con ON DELETE / ON UPDATE explícitos
+-- ============================================================
+
+CREATE TABLE plan_dietetico (
+    id_plan         INT          NOT NULL AUTO_INCREMENT,
+    id_paciente     INT          NOT NULL,
+    id_nutricionista INT         NOT NULL,
+    objetivo        VARCHAR(200),
     calorias_diarias INT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente) ON DELETE CASCADE,
-    FOREIGN KEY (id_profesional) REFERENCES profesionales(id_profesional) ON DELETE CASCADE
+    fecha_inicio    DATE         NOT NULL,
+    fecha_fin       DATE,                            -- campo nuevo: faltaba
+    estado          VARCHAR(20)  NOT NULL DEFAULT 'activo',
+    CONSTRAINT PK_plan              PRIMARY KEY (id_plan),
+    CONSTRAINT FK_plan_paciente     FOREIGN KEY (id_paciente)      REFERENCES paciente    (id_paciente)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_plan_nutricionista FOREIGN KEY (id_nutricionista) REFERENCES profesional (id_profesional)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT CHK_plan_estado      CHECK (estado IN ('activo', 'completado', 'pausado', 'cancelado')),
+    CONSTRAINT CHK_plan_fechas      CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
 
--- Tabla de seguimiento de avances
-CREATE TABLE seguimiento_planes (
-    id_seguimiento INT AUTO_INCREMENT PRIMARY KEY,
-    id_plan INT NOT NULL,
-    fecha DATE NOT NULL,
-    peso DECIMAL(5,2),
-    imc DECIMAL(4,2),
+-- Tabla nueva: menú diario
+-- Aparecía en el diagrama de clases entre PlanAlimentacion y
+-- Comida, pero no estaba creada en el SQL original.
+-- Permite organizar las comidas por día dentro del plan.
+CREATE TABLE menu_diario (
+    id_menu     INT         NOT NULL AUTO_INCREMENT,
+    id_plan     INT         NOT NULL,
+    dia_numero  INT         NOT NULL,               -- día 1, 2, 3… dentro del plan
+    dia_semana  VARCHAR(10) NOT NULL,
+    descripcion VARCHAR(200),
+    CONSTRAINT PK_menu          PRIMARY KEY (id_menu),
+    CONSTRAINT FK_menu_plan     FOREIGN KEY (id_plan) REFERENCES plan_dietetico (id_plan)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT CHK_menu_dia     CHECK (dia_semana IN ('lunes','martes','miercoles','jueves','viernes','sabado','domingo'))
+);
+
+CREATE TABLE comida (
+    id_comida   INT          NOT NULL AUTO_INCREMENT,
+    id_menu     INT          NOT NULL,              -- ahora FK a menu_diario (antes a plan)
+    nombre      VARCHAR(100) NOT NULL,
+    tipo        VARCHAR(20)  NOT NULL,
+    calorias    INT          NOT NULL,              -- NOT NULL: es un dato clave
+    CONSTRAINT PK_comida        PRIMARY KEY (id_comida),
+    CONSTRAINT FK_comida_menu   FOREIGN KEY (id_menu) REFERENCES menu_diario (id_menu)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT CHK_comida_tipo  CHECK (tipo IN ('desayuno','almuerzo','comida','merienda','cena','snack'))
+);
+
+CREATE TABLE alimento (
+    id_alimento    INT          NOT NULL AUTO_INCREMENT,
+    id_comida      INT          NOT NULL,
+    nombre         VARCHAR(100) NOT NULL,
+    cantidad       DECIMAL(8,2) NOT NULL,           -- era INT; cambiado a DECIMAL para 0.5 kg, 250 g…
+    unidad         VARCHAR(20)  NOT NULL,
+    calorias       INT,
+    proteinas      DECIMAL(6,2),                   -- campo nuevo del diagrama de clases
+    carbohidratos  DECIMAL(6,2),                   -- campo nuevo del diagrama de clases
+    grasas         DECIMAL(6,2),                   -- campo nuevo del diagrama de clases
+    CONSTRAINT PK_alimento        PRIMARY KEY (id_alimento),
+    CONSTRAINT FK_alimento_comida FOREIGN KEY (id_comida) REFERENCES comida (id_comida)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT CHK_alimento_cant  CHECK (cantidad > 0)
+);
+
+
+-- ============================================================
+-- BLOQUE 4 · CITAS Y PAGOS
+-- ============================================================
+-- Correcciones aplicadas:
+--   · Añadido campo "modalidad" (presencial/online): requisito
+--     explícito del documento del proyecto
+--   · FK con ON DELETE / ON UPDATE explícitos
+-- ============================================================
+
+CREATE TABLE cita (                                 -- nombre en singular
+    id_cita         INT          NOT NULL AUTO_INCREMENT,
+    id_paciente     INT          NOT NULL,
+    id_profesional  INT          NOT NULL,
+    id_plan         INT,                            -- nullable: puede no tener plan aún
+    fecha_cita      DATE         NOT NULL,
+    hora_cita       TIME         NOT NULL,
+    estado_cita     VARCHAR(20)  NOT NULL DEFAULT 'pendiente',
+    modalidad       VARCHAR(15)  NOT NULL DEFAULT 'presencial', -- campo nuevo (requisito)
+    motivo_consulta VARCHAR(150),
+    observacion     VARCHAR(300),
+    CONSTRAINT PK_cita              PRIMARY KEY (id_cita),
+    CONSTRAINT FK_cita_paciente     FOREIGN KEY (id_paciente)    REFERENCES paciente    (id_paciente)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_cita_profesional  FOREIGN KEY (id_profesional) REFERENCES profesional (id_profesional)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_cita_plan         FOREIGN KEY (id_plan)        REFERENCES plan_dietetico (id_plan)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT CHK_cita_estado      CHECK (estado_cita IN ('pendiente','completada','cancelada')),
+    CONSTRAINT CHK_cita_modalidad   CHECK (modalidad   IN ('presencial','online'))
+);
+
+-- Tabla nueva: gestión de pagos y facturación
+-- Requisito explícito del subsistema "Gestión de Pacientes y Citas".
+-- No existía ninguna representación en el SQL original.
+CREATE TABLE factura (
+    id_factura      INT            NOT NULL AUTO_INCREMENT,
+    id_cita         INT            NOT NULL,
+    id_paciente     INT            NOT NULL,
+    importe         DECIMAL(8,2)   NOT NULL,
+    estado_pago     VARCHAR(20)    NOT NULL DEFAULT 'pendiente',
+    metodo_pago     VARCHAR(30),
+    fecha_emision   DATE           NOT NULL,
+    fecha_pago      DATE,
+    CONSTRAINT PK_factura           PRIMARY KEY (id_factura),
+    CONSTRAINT FK_factura_cita      FOREIGN KEY (id_cita)      REFERENCES cita     (id_cita)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_factura_paciente  FOREIGN KEY (id_paciente)  REFERENCES paciente (id_paciente)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT CHK_factura_estado   CHECK (estado_pago IN ('pendiente','pagada','cancelada','devuelta')),
+    CONSTRAINT CHK_factura_importe  CHECK (importe > 0)
+);
+
+
+-- ============================================================
+-- BLOQUE 5 · SEGUIMIENTO Y PROGRESO
+-- ============================================================
+-- Correcciones aplicadas:
+--   · fecha NOT NULL en progreso
+--   · CHECK peso > 0
+--   · Añadido imc DECIMAL para almacenar el valor calculado
+--   · panel_progreso ahora tiene id_paciente (faltaba)
+--   · REGISTRO_MET con tipo_metrica para diferenciar métricas
+-- ============================================================
+
+CREATE TABLE progreso (
+    id_progreso  INT          NOT NULL AUTO_INCREMENT,
+    id_paciente  INT          NOT NULL,
+    id_plan      INT          NOT NULL,
+    fecha        DATE         NOT NULL,             -- antes nullable; ahora NOT NULL
+    peso         DECIMAL(5,2) NOT NULL,
+    imc          DECIMAL(5,2),                      -- campo nuevo: calculado en app
     observaciones TEXT,
-    FOREIGN KEY (id_plan) REFERENCES planes_alimentacion(id_plan) ON DELETE CASCADE
+    CONSTRAINT PK_progreso          PRIMARY KEY (id_progreso),
+    CONSTRAINT FK_progreso_paciente FOREIGN KEY (id_paciente) REFERENCES paciente       (id_paciente)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_progreso_plan     FOREIGN KEY (id_plan)     REFERENCES plan_dietetico (id_plan)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT CHK_progreso_peso    CHECK (peso > 0)
 );
 
--- ==================== INSERCIÓN DE DATOS ====================
+CREATE TABLE panel_progreso (
+    id_panel            INT  NOT NULL AUTO_INCREMENT,
+    id_paciente         INT  NOT NULL,              -- campo nuevo: faltaba la FK
+    fecha_actualizacion DATE NOT NULL,
+    CONSTRAINT PK_panel_progreso    PRIMARY KEY (id_panel),
+    CONSTRAINT FK_panel_paciente    FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
--- Usuarios
-INSERT INTO usuarios (nombre_usuario, email, contraseña_hash, rol) VALUES
-('admin', 'admin@foodiet.com', SHA2('admin123', 256), 'administrador'),
-('dietista1', 'dietista1@foodiet.com', SHA2('pass123', 256), 'nutricionista'),
-('dietista2', 'dietista2@foodiet.com', SHA2('pass123', 256), 'nutricionista'),
-('dietista3', 'dietista3@foodiet.com', SHA2('pass123', 256), 'nutricionista'),
-('ana.lopez', 'ana.lopez@email.com', SHA2('pass123', 256), 'paciente'),
-('carlos.perez', 'carlos.perez@email.com', SHA2('pass123', 256), 'paciente'),
-('manuel.garcia', 'manuel.garcia@email.com', SHA2('pass123', 256), 'paciente');
+-- REGISTRO_MET: se añade tipo_metrica para saber qué se mide
+-- (IMC, % grasa, masa muscular, etc.)
+CREATE TABLE registro_metrica (                     -- renombrado a snake_case
+    id_registro     INT          NOT NULL AUTO_INCREMENT,
+    id_progreso     INT          NOT NULL,
+    id_panel        INT          NOT NULL,
+    tipo_metrica    VARCHAR(50)  NOT NULL,           -- campo nuevo
+    valor           DECIMAL(10,2) NOT NULL,
+    fecha_calculo   DATE         NOT NULL,
+    CONSTRAINT PK_registro_metrica      PRIMARY KEY (id_registro),
+    CONSTRAINT FK_reg_met_progreso      FOREIGN KEY (id_progreso) REFERENCES progreso      (id_progreso)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT FK_reg_met_panel         FOREIGN KEY (id_panel)    REFERENCES panel_progreso (id_panel)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT CHK_reg_met_tipo         CHECK (tipo_metrica IN ('imc','peso','grasa_corporal','masa_muscular','perimetro_cintura','otro'))
+);
 
--- Profesionales
-INSERT INTO profesionales (id_usuario, nombre, apellido, especialidad, años_experiencia, horario, telefono) VALUES
-(2, 'Daniel', 'Dimitrov', 'Nutrición Deportiva', 14, 'Lunes-Viernes 9:00-18:00', '612345678'),
-(3, 'Andrei', 'Veres', 'Nutrición Clínica', 12, 'Lunes-Viernes 10:00-19:00', '623456789'),
-(4, 'Sergio', 'Gonzalez', 'Dietética General', 16, 'Lunes-Viernes 8:00-17:00', '634567890');
 
--- Pacientes
-INSERT INTO pacientes (id_usuario, nombre, apellido, edad, peso, altura, telefono, historial_medico, objetivos_nutricionales, tipo_paciente) VALUES
-(5, 'Ana', 'López', 19, 58.00, 1.65, '645678901', 'Sin antecedentes', 'Mejorar hábitos alimenticios', 'Joven'),
-(6, 'Carlos', 'Pérez', 42, 82.00, 1.78, '656789012', 'Colesterol elevado', 'Reducir peso y colesterol', 'Adulto'),
-(7, 'Manuel', 'García', 71, 74.00, 1.70, '667890123', 'Hipertensión', 'Controlar presión arterial', 'Jubilado');
+-- ============================================================
+-- BLOQUE 6 · INFORMES Y ESTADÍSTICAS
+-- ============================================================
+-- Correcciones aplicadas:
+--   · Eliminadas FK a comida y alimento (no tienen sentido en un
+--     informe de nivel alto; generan acoplamiento innecesario)
+--   · tipo con CHECK para controlar los tipos de informe
+-- ============================================================
 
--- Citas
-INSERT INTO citas (id_paciente, id_profesional, fecha_cita, hora_cita, modalidad, estado, motivo) VALUES
-(1, 1, '2026-02-10', '10:00:00', 'presencial', 'completada', 'Consulta inicial de nutrición'),
-(2, 3, '2026-12-12', '16:30:00', 'online', 'pendiente', 'Seguimiento de plan alimenticio'),
-(1, 2, '2026-03-05', '11:00:00', 'online', 'confirmada', 'Revisión de progreso'),
-(3, 1, '2026-04-15', '09:30:00', 'presencial', 'pendiente', 'Control de hipertensión mediante dieta');
-
--- Pagos
-INSERT INTO pagos (id_cita, monto, metodo_pago, estado_pago, fecha_pago, numero_factura) VALUES
-(1, 50.00, 'tarjeta', 'pagado', '2026-02-10 10:15:00', 'FAC-2026-001'),
-(2, 40.00, 'bizum', 'pendiente', NULL, NULL),
-(3, 45.00, 'tarjeta', 'pagado', '2026-03-05 11:10:00', 'FAC-2026-002');
-
--- Planes de alimentación
-INSERT INTO planes_alimentacion (id_paciente, id_profesional, fecha_inicio, fecha_fin, objetivo, descripcion, calorias_diarias) VALUES
-(1, 1, '2026-02-10', '2026-05-10', 'Mejora hábitos alimenticios', 'Plan equilibrado rico en frutas y verduras', 2000),
-(2, 3, '2025-12-12', '2026-03-12', 'Reducción de peso', 'Dieta hipocalórica controlada', 1800);
-
--- Seguimiento
-INSERT INTO seguimiento_planes (id_plan, fecha, peso, imc, observaciones) VALUES
-(1, '2026-02-10', 58.00, 21.30, 'Peso inicial dentro del rango saludable'),
-(1, '2026-03-10', 57.50, 21.12, 'Ligera reducción, buen progreso'),
-(2, '2025-12-12', 82.00, 25.88, 'Sobrepeso leve, iniciar plan'),
-(2, '2026-01-12', 80.50, 25.41, 'Primera reducción exitosa');
-
--- ==================== CONSULTAS COMPLEJAS ====================
-
--- 1. Listar todas las citas con datos del paciente y profesional (JOIN múltiple)
-SELECT 
-    c.id_cita AS codigo,
-    CONCAT(p.nombre, ' ', p.apellido) AS paciente,
-    CONCAT(pr.nombre, ' ', pr.apellido) AS nutricionista,
-    pr.especialidad,
-    c.fecha_cita,
-    c.hora_cita,
-    c.modalidad,
-    c.estado
-FROM citas c
-JOIN pacientes p ON c.id_paciente = p.id_paciente
-JOIN profesionales pr ON c.id_profesional = pr.id_profesional
-ORDER BY c.fecha_cita DESC;
-
--- 2. Ingresos totales por nutricionista (agregación con GROUP BY)
-SELECT 
-    CONCAT(pr.nombre, ' ', pr.apellido) AS nutricionista,
-    COUNT(c.id_cita) AS citas_realizadas,
-    SUM(p.monto) AS ingresos_totales,
-    AVG(p.monto) AS ingreso_medio_por_cita
-FROM profesionales pr
-LEFT JOIN citas c ON pr.id_profesional = c.id_profesional AND c.estado = 'completada'
-LEFT JOIN pagos p ON c.id_cita = p.id_cita AND p.estado_pago = 'pagado'
-GROUP BY pr.id_profesional
-ORDER BY ingresos_totales DESC;
-
--- 3. Historial completo de un paciente con evolución de peso
-SELECT 
-    CONCAT(p.nombre, ' ', p.apellido) AS paciente,
-    pl.fecha_inicio,
-    pl.objetivo,
-    s.fecha AS fecha_control,
-    s.peso,
-    s.imc,
-    s.observaciones
-FROM pacientes p
-JOIN planes_alimentacion pl ON p.id_paciente = pl.id_paciente
-JOIN seguimiento_planes s ON pl.id_plan = s.id_plan
-ORDER BY p.id_paciente, s.fecha;
-
--- 4. Citas próximas (próximos 7 días)
-SELECT 
-    CONCAT(p.nombre, ' ', p.apellido) AS paciente,
-    CONCAT(pr.nombre, ' ', pr.apellido) AS nutricionista,
-    c.fecha_cita,
-    c.hora_cita,
-    c.modalidad
-FROM citas c
-JOIN pacientes p ON c.id_paciente = p.id_paciente
-JOIN profesionales pr ON c.id_profesional = pr.id_profesional
-WHERE c.estado IN ('pendiente', 'confirmada')
-  AND c.fecha_cita BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
-ORDER BY c.fecha_cita, c.hora_cita;
-
--- 5. Porcentaje de citas por modalidad
-SELECT 
-    modalidad,
-    COUNT(*) AS total_citas,
-    ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM citas), 1) AS porcentaje
-FROM citas
-GROUP BY modalidad;
-
--- ==================== VISTAS ====================
-
--- Vista: resumen de pacientes con su última cita
-CREATE VIEW VistaResumenPacientes AS
-SELECT 
-    p.id_paciente,
-    CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo,
-    p.edad,
-    p.tipo_paciente,
-    ROUND(p.peso / POW(p.altura, 2), 2) AS imc_actual,
-    COUNT(c.id_cita) AS total_citas,
-    MAX(c.fecha_cita) AS ultima_cita
-FROM pacientes p
-LEFT JOIN citas c ON p.id_paciente = c.id_paciente
-GROUP BY p.id_paciente;
-
--- Vista: ingresos mensuales
-CREATE VIEW VistaIngresosMensuales AS
-SELECT 
-    YEAR(fecha_pago) AS año,
-    MONTH(fecha_pago) AS mes,
-    COUNT(*) AS total_pagos,
-    SUM(monto) AS ingresos_totales
-FROM pagos
-WHERE estado_pago = 'pagado'
-GROUP BY YEAR(fecha_pago), MONTH(fecha_pago)
-ORDER BY año DESC, mes DESC;
+CREATE TABLE informe (
+    id_informe      INT         NOT NULL AUTO_INCREMENT,
+    id_paciente     INT,
+    id_profesional  INT,
+    id_cita         INT,
+    id_plan         INT,
+    id_panel        INT,
+    fecha_gen       DATE        NOT NULL,
+    fecha_inicio    DATE        NOT NULL,
+    fecha_fin       DATE        NOT NULL,
+    tipo            VARCHAR(30) NOT NULL,
+    CONSTRAINT PK_informe               PRIMARY KEY (id_informe),
+    CONSTRAINT FK_informe_paciente      FOREIGN KEY (id_paciente)    REFERENCES paciente       (id_paciente)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT FK_informe_profesional   FOREIGN KEY (id_profesional) REFERENCES profesional    (id_profesional)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT FK_informe_cita          FOREIGN KEY (id_cita)        REFERENCES cita           (id_cita)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT FK_informe_plan          FOREIGN KEY (id_plan)        REFERENCES plan_dietetico (id_plan)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT FK_informe_panel         FOREIGN KEY (id_panel)       REFERENCES panel_progreso (id_panel)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT CHK_informe_tipo         CHECK (tipo IN ('progreso_paciente','rendimiento_profesional','estadisticas_negocio','plan_dietetico','otro')),
+    CONSTRAINT CHK_informe_fechas       CHECK (fecha_fin >= fecha_inicio)
+);
