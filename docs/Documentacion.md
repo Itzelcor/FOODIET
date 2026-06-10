@@ -24,7 +24,7 @@ El proyecto lo hemos desarrollado entre cuatro personas, cada una responsable de
 
 | Nombre | GitHub | Subsistema |
 |---|---|---|
-| Andrei Veres | [@d-reii](https://github.com/d-reii) | Gestión de Profesionales |
+| Andrei Veres | [@d-reii](https://github.com/d-reii) | Gestión de Profesionales y Administración |
 | Daniel Dimitrov | [@Danielodim](https://github.com/Danielodim) | Pacientes y Citas |
 | Octavian Matei | [@ttaavii](https://github.com/ttaavii) | Planes Alimenticios |
 | Itzel Bethania | [@Itzelcor](https://github.com/Itzelcor) | Estadísticas y QC |
@@ -53,7 +53,7 @@ La interfaz está construida con **HTML5**, **Bootstrap 5** y una hoja de estilo
 
 ### Colores del proyecto
 
-El equipo acordó una paleta verde para toda la aplicación. Está definida en `estilos.css` con variables CSS:
+El equipo ha acordado una paleta verde para toda la aplicación. Está definida en `estilos.css` con variables CSS:
 
 ```css
 :root {
@@ -69,7 +69,7 @@ Todos los archivos `.html` del proyecto importan esta hoja de estilos para mante
 
 ### Páginas públicas
 
-Estas páginas las ve cualquier visitante sin necesidad de registrarse:
+Estas páginas las puede ver cualquier visitante sin necesidad de registrarse:
 
 - **`index.html`** — página de inicio con los servicios de la clínica
 - **`quienes-somos.html`** — información del equipo de nutricionistas
@@ -130,7 +130,7 @@ CREATE TABLE paciente (
 ```
 
 > [!WARNING]
-> No ejecutes los scripts en un orden diferente. Las claves foráneas dependen de que las tablas anteriores existan.
+> No ejecutar los scripts en un orden diferente. Las claves foráneas dependen de que las tablas anteriores existan.
 
 ---
 
