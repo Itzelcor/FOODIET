@@ -24,7 +24,7 @@ El proyecto lo hemos desarrollado entre cuatro personas, cada una responsable de
 
 | Nombre | GitHub | Subsistema |
 |---|---|---|
-| Andrei Veres | [@d-reii](https://github.com/d-reii) | Gestión de Profesionales y Administración |
+| Andrei Veres | [@d-reii](https://github.com/d-reii) | Administración |
 | Daniel Dimitrov | [@Danielodim](https://github.com/Danielodim) | Pacientes y Citas |
 | Octavian Matei | [@ttaavii](https://github.com/ttaavii) | Planes Alimenticios |
 | Itzel Bethania | [@Itzelcor](https://github.com/Itzelcor) | Estadísticas y QC |
@@ -110,7 +110,7 @@ source SQL_02_SERGIO_profesionales_citas.sql;
 source SQL_03_TAVI_planes.sql;
 
 -- 5. Progreso, métricas e informes
-source SQL_04_ITZEL_estadisticas.sql;
+source SQL_04_ITZEL_y_ANDREI_estadisticas.sql;
 ```
 
 Ejemplo de tabla del sistema:
