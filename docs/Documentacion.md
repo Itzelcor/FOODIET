@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./foodietlogo.png" alt="Logo FooDiet" width="150"/>
+  <img src="./foodietlogo.jpg" alt="Logo FooDiet" width="150"/>
 </p>
 
 <h1 align="center">FooDiet</h1>
