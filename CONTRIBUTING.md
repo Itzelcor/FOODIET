@@ -14,8 +14,8 @@ FOODIET/
 │
 ├── 📁 frontend/
 │   ├── 📁 estadisticas/        ← Itzel
-│   ├── 📁 citas/               ← (pendiente de asignar)
-│   ├── 📁 pacientes/           ← Dani
+│   ├── 📁 citas y pacientes              ← (dani)
+│   ├── 📁 profesianales        ← Sergio
 │   ├── 📁 planes/              ← Tavi
 │   └── 📁 css/
 │       └── estilos.css         ← CSS compartido (no tocar sin avisar)
@@ -31,12 +31,12 @@ FOODIET/
 │   ├── 📁 src/
 │   │   ├── 📁 main/java/foodiet/
 │   │   │   ├── 📁 estadisticas/    ← Itzel
-│   │   │   ├── 📁 citas/           ← (pendiente de asignar)
+│   │   │   ├── 📁 profesionales     ← sergio
 │   │   │   ├── 📁 pacientes/       ← Dani
 │   │   │   └── 📁 planes/          ← Tavi
 │   │   └── 📁 test/java/foodiet/
 │   │       ├── 📁 estadisticas/    ← Itzel
-│   │       ├── 📁 citas/           ← (pendiente de asignar)
+│   │       ├── 📁 citas/           ←Dani
 │   │       ├── 📁 pacientes/       ← Dani
 │   │       └── 📁 planes/          ← Tavi
 │   └── pom.xml
