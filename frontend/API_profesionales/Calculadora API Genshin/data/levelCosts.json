@@ -1,0 +1,44 @@
+{
+    "1_20": {
+        "Mora": 24035,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 7
+    },
+    "20_40": {
+        "Mora": 115665,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 29
+    },
+    "40_50": {
+        "Mora": 115820,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 29
+    },
+    "50_60": {
+        "Mora": 170825,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 43
+    },
+    "60_70": {
+        "Mora": 239185,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 60
+    },
+    "70_80": {
+        "Mora": 322375,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 81
+    },
+    "80_90": {
+        "Mora": 684625,
+        "Wanderer's Advice": 0,
+        "Adventurer's Experience": 0,
+        "Hero's Wit": 172
+    }
+}
