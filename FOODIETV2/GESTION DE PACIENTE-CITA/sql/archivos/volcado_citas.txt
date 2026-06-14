@@ -1,0 +1,4 @@
+=== VOLCADO DE CITAS FOODIET ===
+Total citas: 0
+
+(El contenido se genera automaticamente al exportar desde la aplicacion)
