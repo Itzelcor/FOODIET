@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pacientes – FooDiet Valencia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root { --verde: #2e7d32; --verde-claro: #4caf50; }
+    body { font-family: sans-serif; }
+    .navbar-brand img { height: 36px; }
+    .navbar { background-color: var(--verde) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #c8e6c9 !important; }
+    .page-header { background-color: #f1f8e9; border-bottom: 3px solid var(--verde-claro); padding: 2rem 0; margin-bottom: 2rem; }
+    .page-header h1 { color: var(--verde); }
+    .card-header-green { background-color: var(--verde); color: #fff; }
+    .btn-foodiet { background-color: var(--verde); color: #fff; border: none; }
+    .btn-foodiet:hover { background-color: #1b5e20; color: #fff; }
+    .badge-estado-activo { background-color: #4caf50; }
+    .badge-estado-pendiente { background-color: #ff9800; }
+    .badge-estado-cancelado { background-color: #f44336; }
+    footer { background-color: var(--verde); color: #fff; padding: 1.5rem 0; margin-top: 3rem; }
+    footer a { color: #c8e6c9; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="https://via.placeholder.com/120x36/2e7d32/ffffff?text=FooDiet" alt="FooDiet">
+      <strong>FooDiet</strong>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+        <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
+        <li class="nav-item"><a class="nav-link" href="planes.html">Planes Alimenticios</a></li>
+        <li class="nav-item"><a class="nav-link" href="profesionales.html">Profesionales</a></li>
+        <li class="nav-item"><a class="nav-link" href="estadisticas.html">Estadísticas</a></li>
+        <li class="nav-item"><a class="nav-link" href="api-foodiet.html">APIs</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-1"><li class="breadcrumb-item"><a href="index.html">Inicio</a></li><li class="breadcrumb-item active">Pacientes</li></ol></nav>
+    <h1 class="mb-0"><i class="bi bi-people me-2"></i>Gestión de Pacientes</h1>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Buscador + botón nuevo -->
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control" placeholder="Buscar por nombre, DNI o email…">
+        <button type="button" class="btn btn-foodiet">Buscar</button>
+      </div>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-foodiet">
+        <i class="bi bi-plus-circle me-1"></i> Nuevo Paciente
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla pacientes -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green">
+      <i class="bi bi-table me-1"></i> Listado de Pacientes
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th><th>Nombre</th><th>DNI</th><th>Fecha Nac.</th><th>Teléfono</th><th>Dietista</th><th>Tipo</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Ana García López</td><td>12345678A</td><td>15/03/1990</td><td>612 000 001</td><td>Dra. Laura Martínez</td><td><span class="badge bg-primary">Adulto</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>2</td><td>Carlos Ruiz Pérez</td><td>23456789B</td><td>22/07/2005</td><td>612 000 002</td><td>Dra. Ana Pérez</td><td><span class="badge bg-warning text-dark">Joven</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>3</td><td>Mercedes Vidal Sanz</td><td>34567890C</td><td>10/11/1945</td><td>612 000 003</td><td>Dr. Miguel Ruiz</td><td><span class="badge bg-secondary">Mayor</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>4</td><td>David Torres Mas</td><td>45678901D</td><td>04/02/1988</td><td>612 000 004</td><td>Dr. Carlos Soler</td><td><span class="badge bg-primary">Adulto</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>5</td><td>Lucía Martín Gómez</td><td>56789012E</td><td>30/09/2009</td><td>612 000 005</td><td>Dra. Ana Pérez</td><td><span class="badge bg-warning text-dark">Joven</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ficha paciente -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green"><i class="bi bi-person-lines-fill me-1"></i> Ficha del Paciente — Ana García López</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>DNI:</strong> 12345678A</li>
+            <li class="list-group-item"><strong>Fecha nac.:</strong> 15/03/1990</li>
+            <li class="list-group-item"><strong>Teléfono:</strong> 612 000 001</li>
+            <li class="list-group-item"><strong>Email:</strong> ana@email.com</li>
+            <li class="list-group-item"><strong>Dirección:</strong> C/ Mayor 12, Valencia</li>
+            <li class="list-group-item"><strong>Alergias:</strong> Cacahuetes, Gluten</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="fw-bold">Progreso Reciente</h6>
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Fecha</th><th>Peso (kg)</th><th>IMC</th></tr></thead>
+            <tbody>
+              <tr><td>01/01/2026</td><td>78,4</td><td>27,2</td></tr>
+              <tr><td>01/02/2026</td><td>76,1</td><td>26,4</td></tr>
+              <tr><td>01/03/2026</td><td>74,5</td><td>25,8</td></tr>
+              <tr><td>01/04/2026</td><td>72,8</td><td>25,2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-4">
+          <h6 class="fw-bold">Próximas Citas</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">📅 20/06/2026 – 10:30 – Presencial</li>
+            <li class="list-group-item">📅 15/07/2026 – 11:00 – Online</li>
+          </ul>
+          <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-sm btn-foodiet"><i class="bi bi-calendar-plus me-1"></i>Nueva cita</button>
+            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-earmark-pdf me-1"></i>Informe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container text-center">
+    <p class="mb-1"><strong>FooDiet</strong> – Clínica Dietética en Valencia</p>
+    <p class="mb-0 small">contacto@foodiet.es &nbsp;|&nbsp; +34 963 00 00 00 &nbsp;|&nbsp; © 2026 FooDiet</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
