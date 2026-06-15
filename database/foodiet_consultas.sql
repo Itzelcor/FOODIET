@@ -1,186 +1,156 @@
--- ============================================================
--- FooDiet – Base de Datos Completa y Batería de Consultas SELECT
--- IES Font de San Lluis · 1 DAW PID 2025-2026
--- ============================================================
-USE FooDiet;
--- ============================================================
---           BATERÍA COMPLETA DE CONSULTAS SELECT
--- ============================================================
+use FooDiet;
 
--- SELECT 1.1: Listado básico de pacientes activos con sus credenciales de acceso y tipo de segmento.
-SELECT 
-    p.id_paciente,
-    p.nombre, 
-    p.apellidos, 
-    u.email AS email_cuenta, 
-    p.telefono,
-    p.tipo_paciente,
-    u.activo
+-- ============================================================================
+-- 1. LISTA DE PACIENTES ORDENADA POR ALTURA (Básica)
+-- Obtiene los nombres, apellidos y altura de todos los pacientes varones, 
+-- ordenados de mayor a menor altura.
+-- ============================================================================
+SELECT nombre, apellidos, altura 
+FROM paciente
+WHERE sexo = 'M'
+ORDER BY altura DESC;
+
+
+-- ============================================================================
+-- 2. CANTIDAD DE PROFESIONALES POR ESPECIALIDAD (Agrupación)
+-- Cuenta cuántos profesionales activos hay en cada especialidad, mostrando 
+-- solo aquellas áreas que tengan al menos un profesional.
+-- ============================================================================
+SELECT id_especialidad, COUNT(id_profesional) AS total_profesionales
+FROM profesional
+WHERE activo = 1
+GROUP BY id_especialidad
+ORDER BY total_profesionales DESC;
+
+
+-- ============================================================================
+-- 3. PACIENTES CON ALERGIAS GRAVES (Join N:M)
+-- Muestra el nombre del paciente y el nombre de la aleraia únicamente para 
+-- los casos donde la severidad sea 'grave'.
+-- ============================================================================
+SELECT p.nombre, p.apellidos, a.nombre AS nombre_alergia
 FROM paciente p
-JOIN usuario u ON p.id_usuario = u.id_usuario
-WHERE u.activo = 1;
+INNER JOIN paciente_alergia pa ON p.id_paciente = pa.id_paciente
+INNER JOIN alergia a ON pa.id_alergia = a.id_alergia
+WHERE pa.severidad = 'grave';
 
--- SELECT 1.2: Pacientes y sus respectivas alergias, intolerancias o restricciones alimentarias asociadas, ordenados por severidad.
-SELECT 
-    p.id_paciente,
-    CONCAT(p.nombre, ' ', p.apellidos) AS paciente,
-    a.nombre AS alergia_restriccion,
-    a.tipo AS tipo_alergia,
-    pa.severidad
-FROM paciente p
-JOIN paciente_alergia pa ON p.id_paciente = pa.id_paciente
-JOIN alergia a ON pa.id_alergia = a.id_alergia
-ORDER BY FIELD(pa.severidad, 'grave', 'moderada', 'leve');
 
--- SELECT 2.1: Listado de profesionales con su respectiva especialidad médica y años de experiencia.
-SELECT 
-    pr.id_profesional,
-    pr.nom_completo AS profesional,
-    e.nombre AS especialidad,
-    pr.anos_exp,
-    pr.email AS email_profesional
-FROM profesional pr
-LEFT JOIN especialidad e ON pr.id_especialidad = e.id_especialidad
-WHERE pr.activo = 1;
+-- ============================================================================
+-- 4. PLANES DIETÉTICOS CON MÁS DE 2500 CALORÍAS (Filtrado y orden)
+-- Muestra los objetivos y las calorías de los planes alimenticios más 
+-- calóricos que están actualmente activos.
+-- ============================================================================
+SELECT objetivo, calorias_diarias, fecha_inicio
+FROM plan_dietetico
+WHERE estado = 'activo' AND calorias_diarias > 2500
+ORDER BY calorias_diarias DESC
+LIMIT 5;
 
--- SELECT 2.2: Horario y agenda laboral por día de la semana de todos los profesionales activos.
-SELECT 
-    pr.nom_completo AS profesional,
-    CASE hp.dia_semana
-        WHEN 1 THEN 'Lunes' WHEN 2 THEN 'Martes' WHEN 3 THEN 'Miércoles'
-        WHEN 4 THEN 'Jueves' WHEN 5 THEN 'Viernes' WHEN 6 THEN 'Sábado' WHEN 7 THEN 'Domingo'
-    END AS dia_laborable,
-    hp.hora_inicio,
-    hp.hora_fin,
-    hp.tipo AS tipo_jornada
-FROM profesional pr
-JOIN horario_profesional hp ON pr.id_profesional = hp.id_profesional
-WHERE pr.activo = 1 AND hp.tipo = 'laboral'
-ORDER BY pr.id_profesional, hp.dia_semana, hp.hora_inicio;
 
--- SELECT 3.1: Resumen de macronutrientes y calorías agregadas por tipo de comida para un día específico de un plan.
-SELECT 
-    pd.id_plan,
-    CONCAT(p.nombre, ' ', p.apellidos) AS paciente,
-    md.dia_semana,
-    c.tipo AS franja_comida,
-    c.nombre AS menu_propuesto,
-    SUM(a.calorias) AS total_kcal,
-    SUM(a.proteinas) AS total_proteinas_g,
-    SUM(a.carbohidratos) AS total_carbohidratos_g,
-    SUM(a.grasas) AS total_grasas_g
-FROM plan_dietetico pd
-JOIN paciente p ON pd.id_paciente = p.id_paciente
-JOIN menu_diario md ON pd.id_plan = md.id_plan
-JOIN comida c ON md.id_menu = c.id_menu
-JOIN alimento a ON c.id_comida = a.id_comida
-WHERE pd.estado = 'activo'
-GROUP BY pd.id_plan, p.nombre, p.apellidos, md.dia_semana, c.tipo, c.nombre
-ORDER BY pd.id_plan, FIELD(md.dia_semana, 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'), c.tipo;
+-- ============================================================================
+-- 5. FACTURAS PENDIENTES DE ALTO IMPORTE (Restricción y orden)
+-- Selecciona las facturas que aún no se han pagado y cuyo importe supera 
+-- los 100 euros, mostrando primero las más caras.
+-- ============================================================================
+SELECT id_factura, id_paciente, importe, fecha_emision
+FROM factura
+WHERE estado_pago = 'pendiente' AND importe > 100.00
+ORDER BY importe DESC;
 
--- SELECT 3.2: Desglose pormenorizado de los alimentos individuales que componen un menú concreto dentro de un plan.
-SELECT 
-    pd.id_plan,
-    md.dia_semana,
-    c.tipo AS tipo_comida,
-    a.nombre AS alimento,
-    a.cantidad,
-    a.unidad,
-    a.calorias AS kcal_alimento
-FROM plan_dietetico pd
-JOIN menu_diario md ON pd.id_plan = md.id_plan
-JOIN comida c ON md.id_menu = c.id_menu
-JOIN alimento a ON c.id_comida = a.id_comida
-WHERE pd.id_plan = 1 -- Filtrable dinámicamente por la aplicación
-ORDER BY md.dia_numero, c.tipo;
 
--- SELECT 4.1: Control de citas agendadas con su modalidad y estado del cobro de la factura.
-SELECT 
-    c.id_cita,
-    c.fecha_cita,
-    c.hora_cita,
-    pac.nombre AS nombre_paciente,
-    prof.nom_completo AS medico_profesional,
-    c.modalidad,
-    c.estado_cita,
-    IFNULL(f.importe, 0.00) AS importe_factura,
-    IFNULL(f.estado_pago, 'sin_facturar') AS estado_pago
+-- ============================================================================
+-- 6. ALIMENTOS MÁS CALÓRICOS POR CADA TOMA (Group By + Having)
+-- Busca los tipos de comida (desayuno, cena, etc.) que promedien más de 
+-- 500 calorías entre sus alimentos individuales.
+-- ============================================================================
+SELECT c.tipo, AVG(a.calorias) AS promedio_calorias
+FROM comida c
+INNER JOIN alimento a ON c.id_comida = a.id_comida
+GROUP BY c.tipo
+HAVING AVG(a.calorias) > 500
+ORDER BY promedio_calorias DESC;
+
+
+-- ============================================================================
+-- 7. CITAS AGENDADAS PARA UN DÍA ESPECÍFICO (Join estándar)
+-- Muestra la hora, el nombre del paciente y el del profesional para todas 
+-- las citas programadas en una fecha concreta.
+-- ============================================================================
+SELECT c.hora_cita, p.nombre AS paciente, pr.nom_completo AS profesional, c.modalidad
 FROM cita c
-JOIN paciente pac ON c.id_paciente = pac.id_paciente
-JOIN profesional prof ON c.id_profesional = prof.id_profesional
-LEFT JOIN factura f ON c.id_cita = f.id_cita
-ORDER BY c.fecha_cita DESC, c.hora_cita DESC;
+INNER JOIN paciente p ON c.id_paciente = p.id_paciente
+INNER JOIN profesional pr ON c.id_profesional = pr.id_profesional
+WHERE c.fecha_cita = '2026-06-20' AND c.estado_cita = 'pendiente'
+ORDER BY c.hora_cita ASC;
 
--- SELECT 4.2: Resumen financiero totalizador de los ingresos percibidos desglosados según el método de pago utilizado.
-SELECT 
-    f.metodo_pago,
-    COUNT(f.id_factura) AS volumen_transacciones,
-    SUM(f.importe) AS total_recaudado
-FROM factura f
-WHERE f.estado_pago = 'pagada'
-GROUP BY f.metodo_pago
+
+-- ============================================================================
+-- 8. PACIENTES QUE HAN SUPERADO EL PESO MEDIO (Subconsulta en Where)
+-- Selecciona a los pacientes cuyos registros de progreso individuales hayan 
+-- marcado un peso mayor que el peso medio de toda la clínica.
+-- ============================================================================
+SELECT DISTINCT id_paciente, peso, fecha
+FROM progreso
+WHERE peso > (SELECT AVG(peso) FROM progreso)
+ORDER BY peso DESC;
+
+
+-- ============================================================================
+-- 9. TOTAL DE DINERO RECAUDADO POR MÉTODO DE PAGO (Agrupación)
+-- Suma el importe total de las facturas que ya han sido pagadas, 
+-- agrupándolas por el método de pago utilizado.
+-- ============================================================================
+SELECT metodo_pago, SUM(importe) AS total_recaudado
+FROM factura
+WHERE estado_pago = 'pagada'
+GROUP BY metodo_pago
 ORDER BY total_recaudado DESC;
 
--- SELECT 5.1: Historial analítico de la evolución del peso y el IMC autocalculado de los pacientes.
-SELECT 
-    p.id_paciente,
-    CONCAT(p.nombre, ' ', p.apellidos) AS paciente,
-    prg.fecha AS fecha_control,
-    prg.peso AS peso_kg,
-    prg.imc,
-    prg.observaciones
-FROM progreso prg
-JOIN paciente p ON prg.id_paciente = p.id_paciente
-ORDER BY p.id_paciente, prg.fecha ASC;
 
--- SELECT 5.2: Consulta avanzada de registros métricos del panel de control de evolución física corporativa.
-SELECT 
-    p.nombre AS paciente,
-    rm.fecha_calculo,
-    rm.tipo_metrica,
-    rm.valor,
-    pan.fecha_actualizacion AS ultima_sincronizacion
-FROM registro_metrica rm
-JOIN panel_progreso pan ON rm.id_panel = pan.id_panel
-JOIN paciente p ON pan.id_paciente = p.id_paciente
-ORDER BY p.nombre, rm.fecha_calculo DESC, rm.tipo_metrica;
+-- ============================================================================
+-- 10. PACIENTES CON MÁS DE 3 CITAS CANCELADAS (Group By + Having)
+-- Identifica a los pacientes que acumulen más de 3 citas en estado 'cancelada'.
+-- ============================================================================
+SELECT id_paciente, COUNT(id_cita) AS citas_canceladas
+FROM cita
+WHERE estado_cita = 'cancelada'
+GROUP BY id_paciente
+HAVING COUNT(id_cita) > 3
+ORDER BY citas_canceladas DESC;
 
 
--- ------------------------------------------------------------
--- SUBSISTEMA 6: EXTRACCIÓN GLOBAL ANALÍTICA (INFORMES)
--- ------------------------------------------------------------
+-- ============================================================================
+-- 11. ALIMENTOS ASIGNADOS A UN PACIENTE ESPECÍFICO (Triple Join)
+-- Muestra la lista de alimentos que tiene asignados el id_paciente = 5 
+-- en sus menús diarios activos.
+-- ============================================================================
+SELECT a.nombre, a.cantidad, a.unidad, c.tipo AS momento_comida
+FROM plan_dietetico pd
+INNER JOIN menu_diario md ON pd.id_plan = md.id_plan
+INNER JOIN comida c ON md.id_menu = c.id_menu
+INNER JOIN alimento a ON c.id_comida = a.id_comida
+WHERE pd.id_paciente = 5 AND pd.estado = 'activo';
 
--- SELECT 6.1: Auditoría y trazabilidad completa de informes del sistema y sus entidades vinculadas.
-SELECT 
-    inf.id_informe,
-    inf.fecha_gen AS fecha_generacion,
-    inf.tipo AS tipo_informe,
-    p.nombre AS paciente_asociado,
-    pr.nom_completo AS profesional_creador
-FROM informe inf
-LEFT JOIN paciente p ON inf.id_paciente = p.id_paciente
-LEFT JOIN profesional pr ON inf.id_profesional = pr.id_profesional
-ORDER BY inf.fecha_gen DESC;
 
--- SELECT 6.2 (NUEVA): Métrica de rendimiento de negocio: Citas realizadas frente a canceladas por profesional.
-SELECT 
-    pr.nom_completo AS profesional,
-    COUNT(CASE WHEN c.estado_cita = 'completada' THEN 1 END) AS citas_exitosas,
-    COUNT(CASE WHEN c.estado_cita = 'cancelada' THEN 1 END) AS citas_anuladas,
-    COUNT(c.id_cita) AS citas_totales
-FROM profesional pr
-JOIN cita c ON pr.id_profesional = c.id_profesional
-GROUP BY pr.id_profesional, pr.nom_completo
-ORDER BY citas_exitosas DESC;
+-- ============================================================================
+-- 12. PROFESIONALES QUE TRABAJAN LOS LUNES POR LA MAÑANA (Filtrado de tiempo)
+-- Obtiene los nombres de los profesionales que tienen turnos laborales los 
+-- lunes (día 1) antes de las 14:00 de la tarde.
+-- ============================================================================
+SELECT DISTINCT p.nom_completo, hp.hora_inicio, hp.hora_fin
+FROM profesional p
+INNER JOIN horario_profesional hp ON p.id_profesional = hp.id_profesional
+WHERE hp.dia_semana = 1 AND hp.tipo = 'laboral' AND hp.hora_inicio < '14:00:00'
+ORDER BY hp.hora_inicio ASC;
 
--- SELECT 6.3 (NUEVA): Alertas de control de salud: Pacientes con alergias graves y planes activos.
-SELECT 
-    p.nombre AS paciente_nombre,
-    p.telefono AS contacto,
-    a.nombre AS sustancia_peligrosa,
-    pd.objetivo AS tratamiento_actual
-FROM paciente p
-JOIN paciente_alergia pa ON p.id_paciente = pa.id_paciente
-JOIN alergia a ON pa.id_alergia = a.id_alergia
-JOIN plan_dietetico pd ON p.id_paciente = pd.id_paciente
-WHERE pa.severidad = 'grave' AND pd.estado = 'activo';
+
+-- ============================================================================
+-- 13. MÉTRICAS FÍSICAS MÁS RECIENTES QUE ESTÁN EN RIESGO (Subconsulta + In)
+-- Busca los registros de métricas de tipo 'grasa_corporal' o 'imc' cuyo valor 
+-- supera el umbral de 30, ordenados por fecha.
+-- ============================================================================
+SELECT id_registro, tipo_metrica, valor, fecha_calculo
+FROM registro_metrica
+WHERE tipo_metrica IN ('imc', 'grasa_corporal') AND valor > 30.00
+ORDER BY fecha_calculo DESC
+LIMIT 10;
