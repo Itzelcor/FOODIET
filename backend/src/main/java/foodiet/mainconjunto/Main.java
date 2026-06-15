@@ -16,9 +16,7 @@ import foodiet.datos.ConexionBD;
 import foodiet.datos.GestorBD;
 import foodiet.presentacion.MenuPrincipal;
 import hacer_main_comun.Estadisticas.src.modelo.*;
-// hacer_main_comun.estadisticas.src.conexionDB.ConexionBD omitido - conflicto con foodiet.datos.ConexionBD
 import hacer_main_comun.Gestion_del_Equipo_Profesional.src.model.*;
-// hacer_main_comun.gestion_del_equipo_profesional.src.main.Main omitido - conflicto de nombre con esta clase Main
 
 import java.util.ArrayList;
 
