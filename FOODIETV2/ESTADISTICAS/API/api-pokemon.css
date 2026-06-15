@@ -1,0 +1,67 @@
+:root {
+    --verde: #2e7d32;
+    --verde-claro: #4caf50;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.navbar {
+    background-color: var(--verde) !important;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    color: #c8e6c9 !important;
+}
+
+.page-header {
+    background-color: #f1f8e9;
+    border-bottom: 3px solid var(--verde-claro);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    color: var(--verde);
+}
+
+.card-header-green {
+    background-color: var(--verde);
+    color: #fff;
+}
+
+.btn-foodiet {
+    background-color: var(--verde);
+    color: #fff;
+    border: none;
+}
+
+.btn-foodiet:hover {
+    background-color: #1b5e20;
+    color: #fff;
+}
+
+footer {
+    background-color: var(--verde);
+    color: #fff;
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+footer a {
+    color: #c8e6c9;
+}
+
+#resultado {
+    display: none;
+}
+
+#error-msg {
+    display: none;
+}
