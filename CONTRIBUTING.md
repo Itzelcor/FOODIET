@@ -7,15 +7,15 @@ Antes de subir cualquier cosa al repositorio, lee esta guía entera. Es corta y 
 
 ---
 
-## 📁 Estructura de carpetas
+##  Estructura de carpetas
 
 ```
 FOODIET/
 │
 ├── 📁 frontend/
 │   ├── 📁 estadisticas/        ← Itzel
-│   ├── 📁 citas/               ← Sergio
-│   ├── 📁 pacientes/           ← Dani
+│   ├── 📁 citas y pacientes              ← (dani)
+│   ├── 📁 profesianales        ← Sergio
 │   ├── 📁 planes/              ← Tavi
 │   └── 📁 css/
 │       └── estilos.css         ← CSS compartido (no tocar sin avisar)
@@ -28,20 +28,31 @@ FOODIET/
 │   └── SQL_04_ITZEL_estadisticas.sql
 │
 ├── 📁 backend/
-│   ├── 📁 src/main/java/stats/
-│   └── 📁 src/test/java/stats/
+│   ├── 📁 src/
+│   │   ├── 📁 main/java/foodiet/
+│   │   │   ├── 📁 estadisticas/    ← Itzel
+│   │   │   ├── 📁 profesionales     ← sergio
+│   │   │   ├── 📁 pacientes/       ← Dani
+│   │   │   └── 📁 planes/          ← Tavi
+│   │   └── 📁 test/java/foodiet/
+│   │       ├── 📁 estadisticas/    ← Itzel
+│   │       ├── 📁 citas/           ←Dani
+│   │       ├── 📁 pacientes/       ← Dani
+│   │       └── 📁 planes/          ← Tavi
+│   └── pom.xml
 │
 └── 📁 docs/
     ├── README.md
+    ├── CONTRIBUTING.md
     ├── MemoriaFoodiet.md
     └── Estadisticas_HU_Requisitos.md
 ```
 
-> ⚠️ **Regla de oro:** cada uno trabaja en su propia carpeta. Si necesitas tocar la de otro, avisa primero.
+>  **Regla de oro:** cada uno trabaja en su propia carpeta. Si necesitas tocar la de otro, avisa primero.
 
 ---
 
-## 🍴 Trabajar con Fork
+## Trabajar con Fork
 
 Si contribuyes desde un fork (copia del repositorio en tu cuenta), sigue estos pasos.
 
@@ -83,7 +94,7 @@ upstream  https://github.com/Itzelcor/FOODIET.git (push)
 
 ---
 
-## 🔄 Mantener tu fork actualizado
+##  Mantener tu fork actualizado
 
 Cada vez que alguien suba cambios al repositorio principal, tienes que sincronizar tu fork. Hazlo **antes de ponerte a trabajar**.
 
@@ -101,11 +112,11 @@ git merge upstream/development
 git push origin development
 ```
 
-> ⚠️ Si no haces esto antes de trabajar, tu fork se quedará desactualizado y tendrás conflictos al abrir la PR.
+> Si no haces esto antes de trabajar, tu fork se quedará desactualizado y tendrás conflictos al abrir la PR.
 
 ---
 
-## 🌿 Ramas
+##  Ramas
 
 | Rama | Para qué sirve |
 |---|---|
@@ -127,7 +138,7 @@ feature/tests-estadisticas
 feature/planes-menu-diario
 ```
 
-Ejemplos incorrectos ❌:
+Ejemplos incorrectos :
 ```
 mi-rama
 arreglos
@@ -137,7 +148,7 @@ estadisticas dashboard   ← sin espacios ni guiones
 
 ---
 
-## 📝 Commits
+##  Commits
 
 ### Formato obligatorio
 
@@ -163,7 +174,7 @@ db: añade script SQL de pacientes
 test: añade pruebas unitarias para imcMedio
 ```
 
-### Ejemplos incorrectos ❌
+### Ejemplos incorrectos 
 ```
 cambios
 arreglé cosas
@@ -192,7 +203,8 @@ git checkout -b feature/tu-rama
 ### Mientras trabajas
 
 ```bash
-git add nombre-del-archivo   # NUNCA uses git add . para evitar subir archivos de otros
+# NUNCA uses git add . — añade solo tus archivos
+git add frontend/estadisticas/mi-archivo.html
 git commit -m "tipo: descripción"
 ```
 
@@ -206,7 +218,7 @@ Luego abre una **Pull Request** en GitHub desde tu fork hacia `Itzelcor/FOODIET`
 
 ---
 
-## 📋 Pull Requests
+##  Pull Requests
 
 Toda PR debe tener:
 
@@ -216,10 +228,10 @@ Toda PR debe tener:
 - **Base:** siempre `development`, nunca `main`
 
 ### Reglas
-- ❌ No puedes aprobar tu propia PR
-- ❌ No se mergea sin al menos una aprobación
-- ✅ Otro compañero debe revisar y aprobar antes del merge
-- ✅ Una vez mergeada, elimina la rama feature
+-  No puedes aprobar tu propia PR
+-  No se mergea sin al menos una aprobación
+-  Otro compañero debe revisar y aprobar antes del merge
+-  Una vez mergeada, elimina la rama feature
 
 ---
 
@@ -227,25 +239,26 @@ Toda PR debe tener:
 
 | Archivo | Carpeta |
 |---|---|
-| `.html`, `.css` | `frontend/tu-subsistema/` |
+| `.html` | `frontend/tu-subsistema/` |
+| `.css` compartido | `frontend/css/estilos.css` |
 | `.sql` | `database/` |
-| `.java` (clases) | `backend/src/main/java/stats/` |
-| `.java` (tests) | `backend/src/test/java/stats/` |
+| `.java` (clases) | `backend/src/main/java/foodiet/tu-subsistema/` |
+| `.java` (tests) | `backend/src/test/java/foodiet/tu-subsistema/` |
 | `.md`, documentación | `docs/` |
 
 ---
 
-## ⚠️ Cosas que NO hacer nunca
+## Cosas que NO hacer nunca
 
 ```
-❌ Trabajar directamente en main o development
-❌ Usar git add . sin revisar qué archivos estás añadiendo
-❌ Hacer git push --force
-❌ Subir contraseñas, tokens o datos personales reales
-❌ Subir carpetas target/, *.class, node_modules/
-❌ Modificar el CSS compartido sin avisar al equipo
-❌ Mergear sin revisión
-❌ Olvidarte de actualizar tu fork antes de trabajar
+ Trabajar directamente en main o development
+ Usar git add . sin revisar qué archivos estás añadiendo
+ Hacer git push --force
+ Subir contraseñas, tokens o datos personales reales
+ Subir carpetas target/, *.class, node_modules/
+ Modificar el CSS compartido sin avisar al equipo
+ Mergear sin revisión
+ Olvidarte de actualizar tu fork antes de trabajar
 ```
 
 ---
@@ -263,11 +276,11 @@ node_modules/    ← dependencias JS
 .env             ← variables de entorno
 ```
 
-Si ves que Git intenta subir alguno de estos archivos, no lo añadas con `git add`.
+Si ves que Git intenta subir alguno de estos archivos, no lo añadas.
 
 ---
 
-## 🆘 Problemas frecuentes
+##  Problemas frecuentes
 
 ### Mi fork está desactualizado
 
@@ -281,11 +294,8 @@ git push origin development
 ### Hice commit en la rama equivocada
 
 ```bash
-# Copia el commit a la rama correcta
 git checkout rama-correcta
 git cherry-pick HASH-DEL-COMMIT
-
-# Deshaz el commit en la rama equivocada
 git checkout rama-equivocada
 git revert HEAD
 ```
@@ -294,8 +304,8 @@ git revert HEAD
 
 ```bash
 git merge upstream/development
-# Git marca los conflictos en el archivo con <<<<<<, ======, >>>>>>
-# Abre el archivo, elige qué versión conservar y elimina los marcadores
+# Abre el archivo con conflictos, elige qué versión conservar
+# Elimina los marcadores <<<<<<, ======, >>>>>>
 git add archivo-resuelto
 git commit -m "fix: resuelve conflicto en nombre-archivo"
 ```
