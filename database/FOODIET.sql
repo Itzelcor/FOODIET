@@ -63,16 +63,16 @@ CREATE TABLE paciente (
     id_paciente     INT          NOT NULL AUTO_INCREMENT,
     id_usuario      INT          NOT NULL,
     dni             VARCHAR(9)   NOT NULL,
-    nombre          VARCHAR(50)  NOT NULL,             -- ampliado de 30 a 50
-    apellidos       VARCHAR(100) NOT NULL,             -- "apellido" → "apellidos"
-    telefono        VARCHAR(15)  NOT NULL,             -- campo nuevo, era necesario
-    email           VARCHAR(100) NOT NULL,             -- campo nuevo
-    direccion       VARCHAR(150) NOT NULL,             -- sin tilde; ampliado a 150
+    nombre          VARCHAR(50)  NOT NULL,             
+    apellidos       VARCHAR(100) NOT NULL,             
+    telefono        VARCHAR(15)  NOT NULL,             
+    email           VARCHAR(100) NOT NULL,            
+    direccion       VARCHAR(150) NOT NULL,             
     fecha_nac       DATE         NOT NULL,
-    sexo            CHAR(1)      NOT NULL,             -- campo nuevo para cálculos
-    altura          DECIMAL(5,2) NOT NULL,             -- campo nuevo (metros) para IMC
-    tipo_paciente   VARCHAR(20)  NOT NULL DEFAULT 'adulto', -- herencia del diagrama
-    fecha_registro  DATE         NOT NULL,             -- campo nuevo: cuándo se registró
+    sexo            CHAR(1)      NOT NULL,            
+    altura          DECIMAL(5,2) NOT NULL,            
+    tipo_paciente   VARCHAR(20)  NOT NULL DEFAULT 'adulto',
+    fecha_registro  DATE         NOT NULL,             
     CONSTRAINT PK_paciente         PRIMARY KEY (id_paciente),
     CONSTRAINT UQ_paciente_dni     UNIQUE (dni),
     CONSTRAINT UQ_paciente_email   UNIQUE (email),
@@ -245,15 +245,15 @@ CREATE TABLE alimento (
 --   · FK con ON DELETE / ON UPDATE explícitos
 -- ============================================================
 
-CREATE TABLE cita (                                 -- nombre en singular
+CREATE TABLE cita (                                 
     id_cita         INT          NOT NULL AUTO_INCREMENT,
     id_paciente     INT          NOT NULL,
     id_profesional  INT          NOT NULL,
-    id_plan         INT,                            -- nullable: puede no tener plan aún
+    id_plan         INT,                           
     fecha_cita      DATE         NOT NULL,
     hora_cita       TIME         NOT NULL,
     estado_cita     VARCHAR(20)  NOT NULL DEFAULT 'pendiente',
-    modalidad       VARCHAR(15)  NOT NULL DEFAULT 'presencial', -- campo nuevo (requisito)
+    modalidad       VARCHAR(15)  NOT NULL DEFAULT 'presencial', 
     motivo_consulta VARCHAR(150),
     observacion     VARCHAR(300),
     CONSTRAINT PK_cita              PRIMARY KEY (id_cita),
