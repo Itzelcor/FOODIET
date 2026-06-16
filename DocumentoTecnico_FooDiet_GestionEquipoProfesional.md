@@ -46,7 +46,7 @@ El modelo de datos se ha diseñado siguiendo los principios de normalización ha
 | `vacaciones_sustituciones` | id_vacacion (PK), id_profesional (FK), id_sustituto (FK), fecha_inicio, fecha_fin, motivo, tipo | N:1 con profesionales (profesional y sustituto) |
 | `asignaciones_paciente` | id_asignacion (PK), id_profesional (FK), id_paciente (FK\*), fecha_asignacion, activa | N:1 con profesionales; FK\* pendiente de Dani |
 
-> **Nota:** La clave foránea `id_paciente` de la tabla `asignaciones_paciente` referencia la tabla `pacientes` del subsistema de Gestión de Pacientes y Citas (responsabilidad de Dani). Esta dependencia está marcada con un comentario `TODO` en el script SQL y se resolverá una vez confirmada la estructura de dicha tabla.
+> **Nota:** La clave foránea `id_paciente` de la tabla `asignaciones_paciente` referencia la tabla `pacientes` del subsistema de Gestión de Pacientes y Citas.
 
 ### 2.2 Diagrama Entidad-Relación (ERD)
 
