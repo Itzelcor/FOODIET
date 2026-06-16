@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FooDiet - Planes Alimenticios</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="./logo.png" alt="FooDiet">
+        <span>FooDiet</span>
+      </a>
+      <div class="d-flex flex-wrap gap-3">
+        <a class="nav-link text-white" href="usuarios.html">Usuarios</a>
+        <a class="nav-link text-white" href="estadisticas.html">Estadisticas</a>
+        <a class="nav-link text-white" href="profesionales.html">Profesionales</a>
+        <a class="nav-link text-white" href="pacientes.html">Pacientes</a>
+        <a class="nav-link text-white fw-bold" href="planes.html">Planes</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+
+    <h5 class="seccion-titulo">Gestion de Planes Alimenticios</h5>
+
+    <form method="get" action="#" class="row g-2 mb-3">
+      <div class="col-md-2">
+        <select class="form-select form-select-sm">
+          <option value="">Estado</option><option>activo</option><option>completado</option><option>pausado</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm">
+          <option value="">Nutricionista</option><option>Laura Gomez</option><option>Carlos Martin</option><option>Sergio Gonzalez</option>
+        </select>
+      </div>
+      <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Filtrar</button></div>
+      <div class="col text-end"><a href="#formNuevo" class="btn btn-outline-success btn-sm">+ Nuevo plan</a></div>
+    </form>
+
+    <div class="table-responsive mb-4">
+      <table class="table table-sm table-bordered table-hover bg-white">
+        <thead><tr><th>ID</th><th>Paciente</th><th>Nutricionista</th><th>Objetivo</th><th>kcal/dia</th><th>Inicio</th><th>Fin</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ana Garcia Lopez</td><td>Laura Gomez</td><td>Perdida de peso gradual</td><td>1.600</td><td>2026-01-20</td><td>2026-07-20</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>2</td><td>Luis Torres Vega</td><td>Carlos Martin</td><td>Ganancia muscular deportiva</td><td>2.800</td><td>2026-02-01</td><td>2026-08-01</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>3</td><td>Maria Lopez Ruiz</td><td>Laura Gomez</td><td>Dieta sin gluten equilibrada</td><td>1.800</td><td>2026-02-10</td><td>2026-05-10</td><td><span class="badge bg-secondary">completado</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>4</td><td>Pedro Sanchez Gil</td><td>Sergio Gonzalez</td><td>Baja en grasas saturadas</td><td>1.900</td><td>2026-02-15</td><td>2026-08-15</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>5</td><td>Carmen Fernandez Mora</td><td>Sergio Gonzalez</td><td>Sin mariscos, equilibrado</td><td>1.750</td><td>2026-03-01</td><td>2026-09-01</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>6</td><td>Jose Martinez Alba</td><td>Carlos Martin</td><td>Definicion muscular</td><td>2.400</td><td>2026-03-10</td><td>2026-09-10</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>7</td><td>Isabel Romero Cruz</td><td>Laura Gomez</td><td>Dieta antiinflamatoria</td><td>1.700</td><td>2026-03-15</td><td>2026-09-15</td><td><span class="badge bg-success">activo</span></td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="formNuevo" class="card border-success mb-4">
+      <div class="card-header bg-success text-white small">Nuevo Plan Dietetico</div>
+      <div class="card-body">
+        <form method="post" action="#" class="row g-2">
+          <div class="col-md-2"><select class="form-select form-select-sm"><option>Ana Garcia Lopez</option><option>Luis Torres Vega</option><option>Maria Lopez Ruiz</option><option>Pedro Sanchez Gil</option><option>Carmen Fernandez</option><option>Jose Martinez Alba</option><option>Isabel Romero Cruz</option></select></div>
+          <div class="col-md-2"><select class="form-select form-select-sm"><option>Laura Gomez</option><option>Carlos Martin</option><option>Sergio Gonzalez</option></select></div>
+          <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Objetivo"></div>
+          <div class="col-md-1"><input type="number" class="form-control form-control-sm" placeholder="kcal"></div>
+          <div class="col-md-1"><input type="date" class="form-control form-control-sm"></div>
+          <div class="col-md-1"><input type="date" class="form-control form-control-sm"></div>
+          <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Guardar</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- API EXTERNA: themealdb -->
+    <div class="card border-secondary mt-4">
+      <div class="card-header bg-secondary text-white small">API externa &mdash; themealdb.com</div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">Inspiracion para nuevos menus. Los platos que aparecen aqui probablemente no esten en ningun plan dietetico de esta clinica, pero nunca se sabe.</p>
+
+        <div class="mb-3">
+          <button class="btn btn-outline-secondary btn-sm" onclick="cargarCategorias()">Cargar categorias de comida</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-sm table-bordered bg-white" id="tablaCat" style="display:none">
+              <thead><tr><th>#</th><th>Categoria</th><th>Buscar recetas</th></tr></thead>
+              <tbody id="cuerpoCat"></tbody>
+            </table>
+            <div id="errorCat" class="text-danger small mt-1"></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <p class="small fw-bold mb-2">Buscar receta por nombre:</p>
+        <div class="row g-2 mb-2">
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" id="inputReceta" placeholder="Ej: chicken, pasta, soup...">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-secondary btn-sm" onclick="buscarReceta()">Buscar</button>
+          </div>
+        </div>
+        <div id="errorReceta" class="text-danger small mb-2"></div>
+        <div id="fichaReceta" style="display:none" class="row g-3 align-items-start">
+          <div class="col-md-3">
+            <img id="imgReceta" src="" alt="receta" class="img-fluid rounded border">
+          </div>
+          <div class="col-md-9">
+            <table class="table table-sm table-bordered bg-white small mb-0">
+              <tbody>
+                <tr><th style="width:25%">Nombre</th><td id="rNombre"></td></tr>
+                <tr><th>Categoria</th><td id="rCategoria"></td></tr>
+                <tr><th>Area</th><td id="rArea"></td></tr>
+                <tr><th>Instrucciones</th><td id="rInstrucciones" style="max-height:80px;overflow-y:auto;display:block"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="bg-success text-white text-center py-3">
+    <small>FooDiet &copy; 2026 &middot; IES Font de Sant Lluis &middot; 1 DAW</small>
+  </footer>
+
+  <script>
+    function cargarCategorias() {
+      var err    = document.getElementById('errorCat');
+      var tabla  = document.getElementById('tablaCat');
+      var cuerpo = document.getElementById('cuerpoCat');
+      err.textContent = '';
+      cuerpo.innerHTML = '<tr><td colspan="3" class="text-muted small">Cargando...</td></tr>';
+      tabla.style.display = 'table';
+
+      fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        var html = '';
+        data.categories.forEach(function(c, i) {
+          html += '<tr><td>' + (i+1) + '</td><td>' + c.strCategory + '</td>' +
+            '<td><button class="btn btn-outline-secondary btn-sm py-0" onclick="buscarCategoria(\'' + c.strCategory + '\')">Buscar</button></td></tr>';
+        });
+        cuerpo.innerHTML = html;
+      })
+      .catch(function(e) { tabla.style.display = 'none'; err.textContent = 'Error: ' + e.message; });
+    }
+
+    function buscarReceta() {
+      var term = document.getElementById('inputReceta').value.trim();
+      var err  = document.getElementById('errorReceta');
+      err.textContent = '';
+      document.getElementById('fichaReceta').style.display = 'none';
+      if (!term) { err.textContent = 'Escribe un nombre.'; return; }
+      buscarCategoria(term);
+    }
+
+    function buscarCategoria(term) {
+      var err = document.getElementById('errorReceta');
+      document.getElementById('inputReceta').value = term;
+      document.getElementById('fichaReceta').style.display = 'none';
+      err.textContent = '';
+
+      fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(term))
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        if (!data.meals || !data.meals.length) {
+          err.textContent = 'No se encontraron recetas para "' + term + '".';
+          return;
+        }
+        var m = data.meals[0];
+        document.getElementById('imgReceta').src       = m.strMealThumb || '';
+        document.getElementById('rNombre').textContent    = m.strMeal;
+        document.getElementById('rCategoria').textContent = m.strCategory;
+        document.getElementById('rArea').textContent      = m.strArea;
+        document.getElementById('rInstrucciones').textContent = (m.strInstructions || '').substring(0, 300) + '...';
+        document.getElementById('fichaReceta').style.display = 'flex';
+        document.getElementById('fichaReceta').scrollIntoView({ behavior: 'smooth' });
+      })
+      .catch(function(e) { err.textContent = 'Error: ' + e.message; });
+    }
+  </script>
+
+</body>
+</html>

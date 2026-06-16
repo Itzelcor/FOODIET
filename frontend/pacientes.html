@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FooDiet - Pacientes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="./logo.png" alt="FooDiet">
+        <span>FooDiet</span>
+      </a>
+      <div class="d-flex flex-wrap gap-3">
+        <a class="nav-link text-white" href="usuarios.html">Usuarios</a>
+        <a class="nav-link text-white" href="estadisticas.html">Estadisticas</a>
+        <a class="nav-link text-white" href="profesionales.html">Profesionales</a>
+        <a class="nav-link text-white fw-bold" href="pacientes.html">Pacientes</a>
+        <a class="nav-link text-white" href="planes.html">Planes</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+
+    <h5 class="seccion-titulo">Gestion de Pacientes y Citas</h5>
+
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item"><a class="nav-link active" href="pacientes.html">Pacientes</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Citas</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Facturas</a></li>
+    </ul>
+
+    <form method="get" action="#" class="row g-2 mb-3">
+      <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Buscar paciente..."></div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm">
+          <option value="">Tipo</option><option>adulto</option><option>joven</option><option>jubilado</option>
+        </select>
+      </div>
+      <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Filtrar</button></div>
+      <div class="col text-end"><a href="#formNuevo" class="btn btn-outline-success btn-sm">+ Nuevo paciente</a></div>
+    </form>
+
+    <div class="table-responsive mb-4">
+      <table class="table table-sm table-bordered table-hover bg-white">
+        <thead><tr><th>ID</th><th>Nombre</th><th>DNI</th><th>Telefono</th><th>Fecha nac.</th><th>Tipo</th><th>Alergias</th><th>Nutricionista</th><th>Acciones</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ana Garcia Lopez</td><td>12345678A</td><td>612000001</td><td>1992-03-15</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-warning text-dark">Lactosa</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>2</td><td>Luis Torres Vega</td><td>23456789B</td><td>612000002</td><td>1988-07-22</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-danger">Frutos secos</span></td><td>Carlos Martin</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>3</td><td>Maria Lopez Ruiz</td><td>34567890C</td><td>612000003</td><td>1995-11-08</td><td><span class="badge bg-info text-dark">joven</span></td><td><span class="badge bg-warning text-dark">Gluten</span> <span class="badge bg-secondary">Soja</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>4</td><td>Pedro Sanchez Gil</td><td>45678901D</td><td>612000004</td><td>1970-04-30</td><td><span class="badge bg-secondary">jubilado</span></td><td><span class="badge bg-warning text-dark">Lactosa</span></td><td>Sergio Gonzalez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>5</td><td>Carmen Fernandez Mora</td><td>56789012E</td><td>612000005</td><td>1985-09-12</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-danger">Marisco</span></td><td>Sergio Gonzalez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>6</td><td>Jose Martinez Alba</td><td>67890123F</td><td>612000006</td><td>1998-01-25</td><td><span class="badge bg-info text-dark">joven</span></td><td><span class="badge bg-warning text-dark">Huevo</span></td><td>Carlos Martin</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+          <tr><td>7</td><td>Isabel Romero Cruz</td><td>78901234G</td><td>612000007</td><td>1965-06-18</td><td><span class="badge bg-secondary">jubilado</span></td><td><span class="text-muted small">Ninguna</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h6 class="seccion-titulo">Proximas citas</h6>
+    <div class="table-responsive mb-4">
+      <table class="table table-sm table-bordered bg-white">
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Profesional</th><th>Modalidad</th><th>Estado</th><th>Motivo</th></tr></thead>
+        <tbody>
+          <tr><td>2026-06-12</td><td>10:00</td><td>Ana Garcia Lopez</td><td>Laura Gomez</td><td><span class="badge bg-success">presencial</span></td><td><span class="badge bg-success">completada</span></td><td>Seguimiento mensual</td></tr>
+          <tr><td>2026-06-12</td><td>11:30</td><td>Luis Torres Vega</td><td>Carlos Martin</td><td><span class="badge bg-primary">online</span></td><td><span class="badge bg-warning text-dark">pendiente</span></td><td>Seguimiento trimestral</td></tr>
+          <tr><td>2026-06-12</td><td>09:30</td><td>Pedro Sanchez Gil</td><td>Sergio Gonzalez</td><td><span class="badge bg-success">presencial</span></td><td><span class="badge bg-warning text-dark">pendiente</span></td><td>Revision semestral</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="formNuevo" class="card border-success mb-4">
+      <div class="card-header bg-success text-white small">Nuevo Paciente</div>
+      <div class="card-body">
+        <form method="post" action="#" class="row g-2">
+          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="Nombre"></div>
+          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="Apellidos"></div>
+          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="DNI"></div>
+          <div class="col-md-2"><input type="email" class="form-control form-control-sm" placeholder="Email"></div>
+          <div class="col-md-1"><input type="date" class="form-control form-control-sm"></div>
+          <div class="col-md-1"><select class="form-select form-select-sm"><option>adulto</option><option>joven</option><option>jubilado</option></select></div>
+          <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Guardar</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- API EXTERNA: randomuser.me -->
+    <div class="card border-secondary mt-4">
+      <div class="card-header bg-secondary text-white small">API externa &mdash; randomuser.me</div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">El modulo de importacion de pacientes desde el sistema antiguo genera personas aleatorias. El equipo de TI dice que lo arreglara "esta semana".</p>
+
+        <div class="mb-3">
+          <button class="btn btn-outline-secondary btn-sm" onclick="cargarUsuarios()">Cargar 5 pacientes de ejemplo</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-sm table-bordered bg-white" id="tablaRandom" style="display:none">
+              <thead><tr><th>Foto</th><th>Nombre</th><th>Email</th><th>Pais</th><th>Ver perfil</th></tr></thead>
+              <tbody id="cuerpoRandom"></tbody>
+            </table>
+            <div id="errorRandom" class="text-danger small mt-1"></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <p class="small fw-bold mb-2">Buscar por nacionalidad:</p>
+        <div class="row g-2 mb-2">
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" id="inputNat" placeholder="Ej: es, fr, us, gb, de...">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-secondary btn-sm" onclick="buscarNacionalidad()">Buscar</button>
+          </div>
+        </div>
+        <div id="errorNat" class="text-danger small mb-2"></div>
+        <div id="perfilUsuario" style="display:none" class="row g-3 align-items-start">
+          <div class="col-auto">
+            <img id="fotoUsuario" src="" alt="foto" class="rounded border" style="width:90px;height:90px;object-fit:cover">
+          </div>
+          <div class="col">
+            <table class="table table-sm table-bordered bg-white mb-0 small">
+              <tbody>
+                <tr><th>Nombre</th><td id="uNombre"></td></tr>
+                <tr><th>Email</th><td id="uEmail"></td></tr>
+                <tr><th>Telefono</th><td id="uTel"></td></tr>
+                <tr><th>Pais</th><td id="uPais"></td></tr>
+                <tr><th>Ciudad</th><td id="uCiudad"></td></tr>
+                <tr><th>Edad</th><td id="uEdad"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="bg-success text-white text-center py-3">
+    <small>FooDiet &copy; 2026 &middot; IES Font de Sant Lluis &middot; 1 DAW</small>
+  </footer>
+
+  <script>
+    function cargarUsuarios() {
+      var err    = document.getElementById('errorRandom');
+      var tabla  = document.getElementById('tablaRandom');
+      var cuerpo = document.getElementById('cuerpoRandom');
+      err.textContent = '';
+      cuerpo.innerHTML = '<tr><td colspan="5" class="text-muted small">Cargando...</td></tr>';
+      tabla.style.display = 'table';
+
+      fetch('https://randomuser.me/api/?results=5')
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        var html = '';
+        data.results.forEach(function(u) {
+          var nombre = u.name.first + ' ' + u.name.last;
+          html += '<tr>' +
+            '<td><img src="' + u.picture.thumbnail + '" class="rounded" style="width:36px;height:36px;object-fit:cover"></td>' +
+            '<td>' + nombre + '</td>' +
+            '<td>' + u.email + '</td>' +
+            '<td>' + u.nat + '</td>' +
+            '<td><button class="btn btn-outline-secondary btn-sm py-0" onclick="mostrarPerfil(' + JSON.stringify(u).replace(/"/g,'&quot;') + ')">Ver</button></td>' +
+            '</tr>';
+        });
+        cuerpo.innerHTML = html;
+      })
+      .catch(function(e) { tabla.style.display = 'none'; err.textContent = 'Error: ' + e.message; });
+    }
+
+    function buscarNacionalidad() {
+      var nat = document.getElementById('inputNat').value.trim().toLowerCase();
+      var err = document.getElementById('errorNat');
+      err.textContent = '';
+      document.getElementById('perfilUsuario').style.display = 'none';
+      if (!nat) { err.textContent = 'Escribe un codigo de pais (es, fr, us...).'; return; }
+
+      fetch('https://randomuser.me/api/?nat=' + encodeURIComponent(nat))
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        if (!data.results || !data.results.length) { err.textContent = 'Sin resultados.'; return; }
+        mostrarPerfil(data.results[0]);
+      })
+      .catch(function(e) { err.textContent = 'Error: ' + e.message; });
+    }
+
+    function mostrarPerfil(u) {
+      document.getElementById('fotoUsuario').src   = u.picture.large || u.picture.medium;
+      document.getElementById('uNombre').textContent  = u.name.first + ' ' + u.name.last;
+      document.getElementById('uEmail').textContent   = u.email;
+      document.getElementById('uTel').textContent     = u.phone;
+      document.getElementById('uPais').textContent    = u.nat;
+      document.getElementById('uCiudad').textContent  = u.location.city;
+      document.getElementById('uEdad').textContent    = u.dob.age + ' anos';
+      document.getElementById('perfilUsuario').style.display = 'flex';
+      document.getElementById('perfilUsuario').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
