@@ -117,7 +117,7 @@ Según el rol del usuario, los métodos DAO filtran o restringen la información
 
 ### 3.5 Conexión a la base de datos
 
-La clase `ConexionBD` del paquete `util` centraliza la URL de conexión, el usuario y la contraseña, y expone un método estático `getConexion()` que devuelve un objeto `Connection` de JDBC. Todos los métodos DAO obtienen la conexión a través de este único punto.
+La clase `ConexionBD` del paquete `db` centraliza la URL de conexión, el usuario y la contraseña, y expone un método estático `getConexion()` que devuelve un objeto `Connection` de JDBC. Todos los métodos DAO obtienen la conexión a través de este único punto.
 
 ---
 
@@ -151,7 +151,7 @@ El script incluye datos de prueba suficientes para demostrar el funcionamiento d
 
 ### 5.1 Tecnologías utilizadas
 
-La interfaz web está desarrollada en HTML5 y CSS3, con Bootstrap 5 incluido mediante CDN. No se ha utilizado ningún framework JavaScript adicional, manteniendo la solución dentro del alcance del nivel académico.
+La interfaz web está desarrollada en HTML5 y CSS, con Bootstrap 5 incluido mediante CDN. No se ha utilizado ningún framework JavaScript adicional, manteniendo la solución dentro del alcance del nivel académico.
 
 ### 5.2 Estructura del archivo
 
@@ -159,17 +159,15 @@ El frontend se entrega como un único archivo HTML bien comentado, organizado en
 
 | Sección | Contenido |
 |---|---|
-| Dashboard | Tarjetas de acceso rápido: total de profesionales, citas del día, vacaciones pendientes y asignaciones activas. |
 | Listado de profesionales | Tabla con todos los profesionales. Botones de editar y dar de baja. Modal Bootstrap para añadir o modificar. |
 | Horarios | Tabla semanal con los turnos de cada profesional. Modal para crear o editar un bloque horario. |
-| Vacaciones y sustituciones | Tabla de solicitudes de ausencia con el sustituto asignado. Modal de registro de nueva solicitud. |
-| Asignación de pacientes | Tabla de asignaciones activas entre profesionales y pacientes. Modal para crear o desactivar una asignación. |
+| Sustituciones | Tabla de sustitutos entre el prfesional ausente y el que le sustituye. |
 
 ### 5.3 Diseño visual
 
 El diseño sigue la referencia visual definida en el wireframe del proyecto:
 
-- Barra de navegación superior en verde oscuro (`#1B4D3E`) con el logotipo FooDiet.
+- Barra de navegación superior en verde oscuro (`bg-success`) con el logotipo FooDiet.
 - Contenido principal en tarjetas blancas con sombra suave sobre fondo gris claro.
 - Botones de acción en verde, coherentes con la identidad visual de la clínica.
 - Tablas con cabecera en verde oscuro y texto blanco, filas alternas en gris claro.
@@ -197,13 +195,12 @@ Una de las exigencias clave del proyecto es que los tres entregables sean cohere
 
 ## 7. Dependencias e integración con otros subsistemas
 
-El subsistema de Gestión del Equipo Profesional interactúa con el subsistema de Gestión de Pacientes y Citas (responsabilidad de Dani Dimitrov) a través de la clave foránea `id_paciente` en la tabla `asignaciones_paciente`.
+El subsistema de Gestión del Equipo Profesional interactúa con el subsistema de Gestión de Pacientes y Citas a través de la clave foránea `id_paciente` en la tabla `asignaciones_paciente`.
 
 Esta dependencia está señalizada en todos los entregables:
 
 - **Script SQL:** bloque comentado con la FK y un comentario `TODO` que indica qué tabla referencia y por qué está pendiente.
-- **Backend Java:** la clase `AsignacionPaciente` incluye el atributo `idPaciente` con un comentario `TODO` que documenta la dependencia.
-- **Frontend:** la sección de asignaciones muestra el campo `id_paciente` como campo de texto libre hasta que se confirme la integración.
+- **Backend Java:** la clase `AsignacionPaciente` incluye el atributo `idPaciente` que documenta la dependencia.
 
 El resto del subsistema es completamente autónomo y funcional. La dependencia solo afecta a la función de asignación de pacientes a profesionales.
 
@@ -211,11 +208,9 @@ El resto del subsistema es completamente autónomo y funcional. La dependencia s
 
 ## 8. Conclusión
 
-El subsistema de Gestión del Equipo Profesional de NutriPlus cubre todos los requisitos definidos en el guion del proyecto: registro de profesionales, gestión de horarios y vacaciones, asignación de pacientes y control de acceso por rol.
+El subsistema de Gestión del Equipo Profesional de FooDiet cubre todos los requisitos definidos en el guion del proyecto: registro de profesionales, gestión de horarios y vacaciones, asignación de pacientes y control de acceso por rol.
 
-La solución se ha desarrollado con tres capas bien diferenciadas y coherentes entre sí: una base de datos MySQL normalizada, un backend en Java con CRUD completo mediante JDBC, y una interfaz web en HTML5/CSS3 con Bootstrap 5. Todas las decisiones de diseño priorizan la claridad y la simplicidad, acordes con el nivel académico de 1º DAW.
-
-La única dependencia externa pendiente — la clave foránea con la tabla `pacientes` — está debidamente documentada y señalizada en los tres entregables, de forma que su integración futura no requerirá cambios estructurales significativos.
+La solución se ha desarrollado con tres capas bien diferenciadas y coherentes entre sí: una base de datos MySQL normalizada, un backend en Java con CRUD completo mediante JDBC, y una interfaz web en HTML/CSS con Bootstrap 5. Todas las decisiones de diseño priorizan la claridad y la simplicidad, acordes con el nivel académico del curso.
 
 ---
 
