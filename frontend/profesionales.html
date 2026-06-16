@@ -1,193 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FooDiet - Profesionales</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profesionales – FooDiet Valencia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root { --verde: #2e7d32; --verde-claro: #4caf50; }
+    body { font-family: sans-serif; }
+    .navbar-brand img { height: 36px; }
+    .navbar { background-color: var(--verde) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #c8e6c9 !important; }
+    .page-header { background-color: #f1f8e9; border-bottom: 3px solid var(--verde-claro); padding: 2rem 0; margin-bottom: 2rem; }
+    .page-header h1 { color: var(--verde); }
+    .card-header-green { background-color: var(--verde); color: #fff; }
+    .btn-foodiet { background-color: var(--verde); color: #fff; border: none; }
+    .btn-foodiet:hover { background-color: #1b5e20; color: #fff; }
+    .badge-estado-activo { background-color: #4caf50; }
+    .badge-estado-pendiente { background-color: #ff9800; }
+    .badge-estado-cancelado { background-color: #f44336; }
+    footer { background-color: var(--verde); color: #fff; padding: 1.5rem 0; margin-top: 3rem; }
+    footer a { color: #c8e6c9; }
+  </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-dark bg-success">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-        <img src="./logo.png" alt="FooDiet">
-        <span>FooDiet</span>
-      </a>
-      <div class="d-flex flex-wrap gap-3">
-        <a class="nav-link text-white" href="usuarios.html">Usuarios</a>
-        <a class="nav-link text-white" href="estadisticas.html">Estadisticas</a>
-        <a class="nav-link text-white fw-bold" href="profesionales.html">Profesionales</a>
-        <a class="nav-link text-white" href="pacientes.html">Pacientes</a>
-        <a class="nav-link text-white" href="planes.html">Planes</a>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="https://via.placeholder.com/120x36/2e7d32/ffffff?text=FooDiet" alt="FooDiet">
+      <strong>FooDiet</strong>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+        <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
+        <li class="nav-item"><a class="nav-link" href="planes.html">Planes Alimenticios</a></li>
+        <li class="nav-item"><a class="nav-link" href="profesionales.html">Profesionales</a></li>
+        <li class="nav-item"><a class="nav-link" href="estadisticas.html">Estadísticas</a></li>
+        <li class="nav-item"><a class="nav-link" href="api-foodiet.html">APIs</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-1"><li class="breadcrumb-item"><a href="index.html">Inicio</a></li><li class="breadcrumb-item active">Profesionales</li></ol></nav>
+    <h1 class="mb-0"><i class="bi bi-person-badge me-2"></i>Gestión de Profesionales</h1>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control" placeholder="Buscar por nombre o especialidad…">
+        <select class="form-select" style="max-width:160px">
+          <option>Todos</option><option>Activo</option><option>Baja</option>
+        </select>
+        <button type="button" class="btn btn-foodiet">Filtrar</button>
       </div>
     </div>
-  </nav>
-
-  <div class="container my-4">
-
-    <h5 class="seccion-titulo">Gestion de Profesionales</h5>
-
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <span class="small text-muted">3 profesionales activos</span>
-      <a href="#formNuevo" class="btn btn-outline-success btn-sm">+ Anadir profesional</a>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-foodiet">
+        <i class="bi bi-plus-circle me-1"></i> Nuevo Profesional
+      </button>
     </div>
-
-    <div class="table-responsive mb-4">
-      <table class="table table-sm table-bordered table-hover bg-white">
-        <thead><tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Email</th><th>Telefono</th><th>Exp.</th><th>Activo</th><th>Acciones</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>Laura Gomez Ruiz</td><td>Nutricion clinica</td><td>laura@foodiet.com</td><td>612100001</td><td>7 a.</td><td class="text-success">Si</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
-          <tr><td>2</td><td>Carlos Martin Perez</td><td>Nutricion deportiva</td><td>carlos@foodiet.com</td><td>612100002</td><td>3 a.</td><td class="text-success">Si</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
-          <tr><td>3</td><td>Sergio Gonzalez Gil</td><td>Dietetica general</td><td>sergio@foodiet.com</td><td>612100003</td><td>5 a.</td><td class="text-success">Si</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h6 class="seccion-titulo">Horarios semanales</h6>
-    <div class="table-responsive mb-4">
-      <table class="table table-sm table-bordered bg-white">
-        <thead><tr><th>Profesional</th><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th></tr></thead>
-        <tbody>
-          <tr><td>Laura Gomez</td><td class="text-success small">09:00-17:00</td><td class="text-success small">09:00-17:00</td><td class="text-success small">09:00-17:00</td><td class="text-success small">09:00-17:00</td><td class="text-success small">09:00-14:00</td></tr>
-          <tr><td>Carlos Martin</td><td class="text-success small">10:00-18:00</td><td class="text-muted small">--</td><td class="text-success small">10:00-18:00</td><td class="text-success small">10:00-18:00</td><td class="text-muted small">--</td></tr>
-          <tr><td>Sergio Gonzalez</td><td class="text-muted small">--</td><td class="text-success small">08:00-15:00</td><td class="text-muted small">--</td><td class="text-success small">08:00-15:00</td><td class="text-success small">08:00-15:00</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h6 class="seccion-titulo">Sustituciones</h6>
-    <div class="table-responsive mb-4">
-      <table class="table table-sm table-bordered bg-white">
-        <thead><tr><th>Ausente</th><th>Sustituto</th><th>Desde</th><th>Hasta</th><th>Motivo</th></tr></thead>
-        <tbody>
-          <tr><td>Carlos Martin</td><td>Laura Gomez</td><td>2025-06-10</td><td>2025-06-17</td><td>Vacaciones</td></tr>
-          <tr><td>Laura Gomez</td><td>Carlos Martin</td><td>2025-07-01</td><td>2025-07-05</td><td>Baja medica</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="formNuevo" class="card border-success mb-4">
-      <div class="card-header bg-success text-white small">Nuevo Profesional</div>
-      <div class="card-body">
-        <form method="post" action="#" class="row g-2">
-          <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Nombre completo"></div>
-          <div class="col-md-2"><input type="email" class="form-control form-control-sm" placeholder="Email"></div>
-          <div class="col-md-2">
-            <select class="form-select form-select-sm">
-              <option>Nutricion clinica</option><option>Nutricion deportiva</option><option>Dietetica general</option><option>Pediatria nutricional</option>
-            </select>
-          </div>
-          <div class="col-md-1"><input type="number" class="form-control form-control-sm" placeholder="Exp."></div>
-          <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Guardar</button></div>
-        </form>
-      </div>
-    </div>
-
-    <!-- API EXTERNA: pokeapi -->
-    <div class="card border-secondary mt-4">
-      <div class="card-header bg-secondary text-white small">API externa &mdash; pokeapi.co</div>
-      <div class="card-body">
-        <p class="text-muted small mb-3">El directorio de especialistas externos todavia no esta listo. Mientras tanto, aqui hay otros profesionales con habilidades especiales.</p>
-
-        <div class="mb-3">
-          <button class="btn btn-outline-secondary btn-sm" onclick="cargarPokemon()">Cargar listado</button>
-          <div class="table-responsive mt-2">
-            <table class="table table-sm table-bordered bg-white" id="tablaPokemon" style="display:none">
-              <thead><tr><th>#</th><th>Nombre</th><th>Ver ficha</th></tr></thead>
-              <tbody id="cuerpoPokemon"></tbody>
-            </table>
-            <div id="errorLista" class="text-danger small mt-1"></div>
-          </div>
-        </div>
-
-        <hr>
-
-        <p class="small fw-bold mb-2">Buscar por nombre:</p>
-        <div class="row g-2 mb-2">
-          <div class="col-md-3">
-            <input type="text" class="form-control form-control-sm" id="inputPokemon" placeholder="Ej: pikachu, bulbasaur...">
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-secondary btn-sm" onclick="buscarPokemon()">Buscar</button>
-          </div>
-        </div>
-        <div id="errorPokemon" class="text-danger small mb-2"></div>
-        <div id="fichaPokemon" style="display:none" class="row g-2 align-items-start">
-          <div class="col-auto text-center">
-            <img id="imgPokemon" src="" alt="sprite" class="border rounded bg-light p-1" style="max-width:100px">
-          </div>
-          <div class="col">
-            <table class="table table-sm table-bordered bg-white mb-0 small">
-              <tbody>
-                <tr><th>Nombre</th><td id="pkNombre"></td></tr>
-                <tr><th>Altura</th><td id="pkAltura"></td></tr>
-                <tr><th>Peso</th><td id="pkPeso"></td></tr>
-                <tr><th>Tipos</th><td id="pkTipos"></td></tr>
-                <tr><th>Habilidades</th><td id="pkHabilidades"></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <footer class="bg-success text-white text-center py-3">
-    <small>FooDiet &copy; 2026 &middot; IES Font de Sant Lluis &middot; 1 DAW</small>
-  </footer>
+  <!-- Tabla profesionales -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green"><i class="bi bi-table me-1"></i> Equipo Profesional</div>
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr><th>#</th><th>Nombre</th><th>Rol</th><th>Especialidad</th><th>Email</th><th>Pacientes</th><th>Estado</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Dra. Laura Martínez</td><td><span class="badge bg-success">Dietista</span></td><td>Nutrición Clínica</td><td>laura@foodiet.es</td><td>12</td><td><span class="badge bg-success">Activo</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>2</td><td>Dr. Carlos Soler</td><td><span class="badge bg-success">Dietista</span></td><td>Nutrición Deportiva</td><td>carlos@foodiet.es</td><td>8</td><td><span class="badge bg-success">Activo</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>3</td><td>Dra. Ana Pérez</td><td><span class="badge bg-success">Dietista</span></td><td>Nutrición Pediátrica</td><td>ana@foodiet.es</td><td>15</td><td><span class="badge bg-success">Activo</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>4</td><td>Dr. Miguel Ruiz</td><td><span class="badge bg-success">Dietista</span></td><td>Nutrición Geriátrica</td><td>miguel@foodiet.es</td><td>10</td><td><span class="badge bg-success">Activo</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>5</td><td>Dra. Sofía Navarro</td><td><span class="badge bg-info text-dark">Nutricionista</span></td><td>Teleconsulta Online</td><td>sofia@foodiet.es</td><td>6</td><td><span class="badge bg-secondary">Baja</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <script>
-    function cargarPokemon() {
-      var err    = document.getElementById('errorLista');
-      var tabla  = document.getElementById('tablaPokemon');
-      var cuerpo = document.getElementById('cuerpoPokemon');
-      err.textContent = '';
-      cuerpo.innerHTML = '<tr><td colspan="3" class="text-muted small">Cargando...</td></tr>';
-      tabla.style.display = 'table';
+  <!-- Horario profesional -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green"><i class="bi bi-clock me-1"></i> Horario — Dra. Laura Martínez</div>
+    <div class="card-body">
+      <table class="table table-bordered table-sm text-center">
+        <thead class="table-success">
+          <tr><th>Día</th><th>Turno Mañana</th><th>Turno Tarde</th><th>Modalidad</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lunes</td><td>09:00 – 13:00</td><td>16:00 – 20:00</td><td>Presencial</td></tr>
+          <tr><td>Martes</td><td>09:00 – 13:00</td><td>–</td><td>Presencial</td></tr>
+          <tr><td>Miércoles</td><td>–</td><td>16:00 – 20:00</td><td>Online</td></tr>
+          <tr><td>Jueves</td><td>09:00 – 13:00</td><td>16:00 – 20:00</td><td>Presencial</td></tr>
+          <tr><td>Viernes</td><td>09:00 – 13:00</td><td>–</td><td>Presencial</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-      fetch('https://pokeapi.co/api/v2/pokemon?limit=20')
-      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
-      .then(function(data) {
-        var html = '';
-        data.results.forEach(function(p, i) {
-          html += '<tr><td>' + (i+1) + '</td><td class="text-capitalize">' + p.name + '</td>' +
-            '<td><button class="btn btn-outline-secondary btn-sm py-0" onclick="verFichaDirecta(\'' + p.name + '\')">Ver ficha</button></td></tr>';
-        });
-        cuerpo.innerHTML = html;
-      })
-      .catch(function(e) { tabla.style.display = 'none'; err.textContent = 'Error: ' + e.message; });
-    }
+</div>
 
-    function buscarPokemon() {
-      var nombre = document.getElementById('inputPokemon').value.trim().toLowerCase();
-      var err    = document.getElementById('errorPokemon');
-      err.textContent = '';
-      document.getElementById('fichaPokemon').style.display = 'none';
-      if (!nombre) { err.textContent = 'Escribe un nombre.'; return; }
-      verFichaDirecta(nombre);
-    }
+<footer>
+  <div class="container text-center">
+    <p class="mb-1"><strong>FooDiet</strong> – Clínica Dietética en Valencia</p>
+    <p class="mb-0 small">contacto@foodiet.es &nbsp;|&nbsp; +34 963 00 00 00 &nbsp;|&nbsp; © 2026 FooDiet</p>
+  </div>
+</footer>
 
-    function verFichaDirecta(nombre) {
-      var err = document.getElementById('errorPokemon');
-      err.textContent = '';
-      fetch('https://pokeapi.co/api/v2/pokemon/' + nombre)
-      .then(function(r) { if (!r.ok) throw new Error('No encontrado: ' + nombre); return r.json(); })
-      .then(function(d) {
-        document.getElementById('pkNombre').textContent     = d.name.charAt(0).toUpperCase() + d.name.slice(1);
-        document.getElementById('pkAltura').textContent     = (d.height / 10) + ' m';
-        document.getElementById('pkPeso').textContent       = (d.weight / 10) + ' kg';
-        document.getElementById('pkTipos').textContent      = d.types.map(function(t){ return t.type.name; }).join(', ');
-        document.getElementById('pkHabilidades').textContent = d.abilities.map(function(a){ return a.ability.name; }).join(', ');
-        document.getElementById('imgPokemon').src = d.sprites.front_default || '';
-        document.getElementById('fichaPokemon').style.display = 'flex';
-        document.getElementById('inputPokemon').value = nombre;
-      })
-      .catch(function(e) { err.textContent = 'Error: ' + e.message; });
-    }
-  </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

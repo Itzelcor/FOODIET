@@ -1,204 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FooDiet - Pacientes</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pacientes – FooDiet Valencia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root { --verde: #2e7d32; --verde-claro: #4caf50; }
+    body { font-family: sans-serif; }
+    .navbar-brand img { height: 36px; }
+    .navbar { background-color: var(--verde) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #c8e6c9 !important; }
+    .page-header { background-color: #f1f8e9; border-bottom: 3px solid var(--verde-claro); padding: 2rem 0; margin-bottom: 2rem; }
+    .page-header h1 { color: var(--verde); }
+    .card-header-green { background-color: var(--verde); color: #fff; }
+    .btn-foodiet { background-color: var(--verde); color: #fff; border: none; }
+    .btn-foodiet:hover { background-color: #1b5e20; color: #fff; }
+    .badge-estado-activo { background-color: #4caf50; }
+    .badge-estado-pendiente { background-color: #ff9800; }
+    .badge-estado-cancelado { background-color: #f44336; }
+    footer { background-color: var(--verde); color: #fff; padding: 1.5rem 0; margin-top: 3rem; }
+    footer a { color: #c8e6c9; }
+  </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-dark bg-success">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-        <img src="./logo.png" alt="FooDiet">
-        <span>FooDiet</span>
-      </a>
-      <div class="d-flex flex-wrap gap-3">
-        <a class="nav-link text-white" href="usuarios.html">Usuarios</a>
-        <a class="nav-link text-white" href="estadisticas.html">Estadisticas</a>
-        <a class="nav-link text-white" href="profesionales.html">Profesionales</a>
-        <a class="nav-link text-white fw-bold" href="pacientes.html">Pacientes</a>
-        <a class="nav-link text-white" href="planes.html">Planes</a>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="https://via.placeholder.com/120x36/2e7d32/ffffff?text=FooDiet" alt="FooDiet">
+      <strong>FooDiet</strong>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+        <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
+        <li class="nav-item"><a class="nav-link" href="planes.html">Planes Alimenticios</a></li>
+        <li class="nav-item"><a class="nav-link" href="profesionales.html">Profesionales</a></li>
+        <li class="nav-item"><a class="nav-link" href="estadisticas.html">Estadísticas</a></li>
+        <li class="nav-item"><a class="nav-link" href="api-foodiet.html">APIs</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-1"><li class="breadcrumb-item"><a href="index.html">Inicio</a></li><li class="breadcrumb-item active">Pacientes</li></ol></nav>
+    <h1 class="mb-0"><i class="bi bi-people me-2"></i>Gestión de Pacientes</h1>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Buscador + botón nuevo -->
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control" placeholder="Buscar por nombre, DNI o email…">
+        <button type="button" class="btn btn-foodiet">Buscar</button>
       </div>
     </div>
-  </nav>
-
-  <div class="container my-4">
-
-    <h5 class="seccion-titulo">Gestion de Pacientes y Citas</h5>
-
-    <ul class="nav nav-tabs mb-3">
-      <li class="nav-item"><a class="nav-link active" href="pacientes.html">Pacientes</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Citas</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Facturas</a></li>
-    </ul>
-
-    <form method="get" action="#" class="row g-2 mb-3">
-      <div class="col-md-3"><input type="text" class="form-control form-control-sm" placeholder="Buscar paciente..."></div>
-      <div class="col-md-2">
-        <select class="form-select form-select-sm">
-          <option value="">Tipo</option><option>adulto</option><option>joven</option><option>jubilado</option>
-        </select>
-      </div>
-      <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Filtrar</button></div>
-      <div class="col text-end"><a href="#formNuevo" class="btn btn-outline-success btn-sm">+ Nuevo paciente</a></div>
-    </form>
-
-    <div class="table-responsive mb-4">
-      <table class="table table-sm table-bordered table-hover bg-white">
-        <thead><tr><th>ID</th><th>Nombre</th><th>DNI</th><th>Telefono</th><th>Fecha nac.</th><th>Tipo</th><th>Alergias</th><th>Nutricionista</th><th>Acciones</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>Ana Garcia Lopez</td><td>12345678A</td><td>612000001</td><td>1992-03-15</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-warning text-dark">Lactosa</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>2</td><td>Luis Torres Vega</td><td>23456789B</td><td>612000002</td><td>1988-07-22</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-danger">Frutos secos</span></td><td>Carlos Martin</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>3</td><td>Maria Lopez Ruiz</td><td>34567890C</td><td>612000003</td><td>1995-11-08</td><td><span class="badge bg-info text-dark">joven</span></td><td><span class="badge bg-warning text-dark">Gluten</span> <span class="badge bg-secondary">Soja</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>4</td><td>Pedro Sanchez Gil</td><td>45678901D</td><td>612000004</td><td>1970-04-30</td><td><span class="badge bg-secondary">jubilado</span></td><td><span class="badge bg-warning text-dark">Lactosa</span></td><td>Sergio Gonzalez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>5</td><td>Carmen Fernandez Mora</td><td>56789012E</td><td>612000005</td><td>1985-09-12</td><td><span class="badge bg-primary">adulto</span></td><td><span class="badge bg-danger">Marisco</span></td><td>Sergio Gonzalez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>6</td><td>Jose Martinez Alba</td><td>67890123F</td><td>612000006</td><td>1998-01-25</td><td><span class="badge bg-info text-dark">joven</span></td><td><span class="badge bg-warning text-dark">Huevo</span></td><td>Carlos Martin</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-          <tr><td>7</td><td>Isabel Romero Cruz</td><td>78901234G</td><td>612000007</td><td>1965-06-18</td><td><span class="badge bg-secondary">jubilado</span></td><td><span class="text-muted small">Ninguna</span></td><td>Laura Gomez</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Ver</a></td></tr>
-        </tbody>
-      </table>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-foodiet">
+        <i class="bi bi-plus-circle me-1"></i> Nuevo Paciente
+      </button>
     </div>
-
-    <h6 class="seccion-titulo">Proximas citas</h6>
-    <div class="table-responsive mb-4">
-      <table class="table table-sm table-bordered bg-white">
-        <thead><tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Profesional</th><th>Modalidad</th><th>Estado</th><th>Motivo</th></tr></thead>
-        <tbody>
-          <tr><td>2026-06-12</td><td>10:00</td><td>Ana Garcia Lopez</td><td>Laura Gomez</td><td><span class="badge bg-success">presencial</span></td><td><span class="badge bg-success">completada</span></td><td>Seguimiento mensual</td></tr>
-          <tr><td>2026-06-12</td><td>11:30</td><td>Luis Torres Vega</td><td>Carlos Martin</td><td><span class="badge bg-primary">online</span></td><td><span class="badge bg-warning text-dark">pendiente</span></td><td>Seguimiento trimestral</td></tr>
-          <tr><td>2026-06-12</td><td>09:30</td><td>Pedro Sanchez Gil</td><td>Sergio Gonzalez</td><td><span class="badge bg-success">presencial</span></td><td><span class="badge bg-warning text-dark">pendiente</span></td><td>Revision semestral</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="formNuevo" class="card border-success mb-4">
-      <div class="card-header bg-success text-white small">Nuevo Paciente</div>
-      <div class="card-body">
-        <form method="post" action="#" class="row g-2">
-          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="Nombre"></div>
-          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="Apellidos"></div>
-          <div class="col-md-2"><input type="text" class="form-control form-control-sm" placeholder="DNI"></div>
-          <div class="col-md-2"><input type="email" class="form-control form-control-sm" placeholder="Email"></div>
-          <div class="col-md-1"><input type="date" class="form-control form-control-sm"></div>
-          <div class="col-md-1"><select class="form-select form-select-sm"><option>adulto</option><option>joven</option><option>jubilado</option></select></div>
-          <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Guardar</button></div>
-        </form>
-      </div>
-    </div>
-
-    <!-- API EXTERNA: randomuser.me -->
-    <div class="card border-secondary mt-4">
-      <div class="card-header bg-secondary text-white small">API externa &mdash; randomuser.me</div>
-      <div class="card-body">
-        <p class="text-muted small mb-3">El modulo de importacion de pacientes desde el sistema antiguo genera personas aleatorias. El equipo de TI dice que lo arreglara "esta semana".</p>
-
-        <div class="mb-3">
-          <button class="btn btn-outline-secondary btn-sm" onclick="cargarUsuarios()">Cargar 5 pacientes de ejemplo</button>
-          <div class="table-responsive mt-2">
-            <table class="table table-sm table-bordered bg-white" id="tablaRandom" style="display:none">
-              <thead><tr><th>Foto</th><th>Nombre</th><th>Email</th><th>Pais</th><th>Ver perfil</th></tr></thead>
-              <tbody id="cuerpoRandom"></tbody>
-            </table>
-            <div id="errorRandom" class="text-danger small mt-1"></div>
-          </div>
-        </div>
-
-        <hr>
-
-        <p class="small fw-bold mb-2">Buscar por nacionalidad:</p>
-        <div class="row g-2 mb-2">
-          <div class="col-md-3">
-            <input type="text" class="form-control form-control-sm" id="inputNat" placeholder="Ej: es, fr, us, gb, de...">
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-secondary btn-sm" onclick="buscarNacionalidad()">Buscar</button>
-          </div>
-        </div>
-        <div id="errorNat" class="text-danger small mb-2"></div>
-        <div id="perfilUsuario" style="display:none" class="row g-3 align-items-start">
-          <div class="col-auto">
-            <img id="fotoUsuario" src="" alt="foto" class="rounded border" style="width:90px;height:90px;object-fit:cover">
-          </div>
-          <div class="col">
-            <table class="table table-sm table-bordered bg-white mb-0 small">
-              <tbody>
-                <tr><th>Nombre</th><td id="uNombre"></td></tr>
-                <tr><th>Email</th><td id="uEmail"></td></tr>
-                <tr><th>Telefono</th><td id="uTel"></td></tr>
-                <tr><th>Pais</th><td id="uPais"></td></tr>
-                <tr><th>Ciudad</th><td id="uCiudad"></td></tr>
-                <tr><th>Edad</th><td id="uEdad"></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <footer class="bg-success text-white text-center py-3">
-    <small>FooDiet &copy; 2026 &middot; IES Font de Sant Lluis &middot; 1 DAW</small>
-  </footer>
+  <!-- Tabla pacientes -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green">
+      <i class="bi bi-table me-1"></i> Listado de Pacientes
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th><th>Nombre</th><th>DNI</th><th>Fecha Nac.</th><th>Teléfono</th><th>Dietista</th><th>Tipo</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Ana García López</td><td>12345678A</td><td>15/03/1990</td><td>612 000 001</td><td>Dra. Laura Martínez</td><td><span class="badge bg-primary">Adulto</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>2</td><td>Carlos Ruiz Pérez</td><td>23456789B</td><td>22/07/2005</td><td>612 000 002</td><td>Dra. Ana Pérez</td><td><span class="badge bg-warning text-dark">Joven</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>3</td><td>Mercedes Vidal Sanz</td><td>34567890C</td><td>10/11/1945</td><td>612 000 003</td><td>Dr. Miguel Ruiz</td><td><span class="badge bg-secondary">Mayor</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>4</td><td>David Torres Mas</td><td>45678901D</td><td>04/02/1988</td><td>612 000 004</td><td>Dr. Carlos Soler</td><td><span class="badge bg-primary">Adulto</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+          <tr><td>5</td><td>Lucía Martín Gómez</td><td>56789012E</td><td>30/09/2009</td><td>612 000 005</td><td>Dra. Ana Pérez</td><td><span class="badge bg-warning text-dark">Joven</span></td><td><a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a><a href="#" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></a><a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <script>
-    function cargarUsuarios() {
-      var err    = document.getElementById('errorRandom');
-      var tabla  = document.getElementById('tablaRandom');
-      var cuerpo = document.getElementById('cuerpoRandom');
-      err.textContent = '';
-      cuerpo.innerHTML = '<tr><td colspan="5" class="text-muted small">Cargando...</td></tr>';
-      tabla.style.display = 'table';
+  <!-- Ficha paciente -->
+  <div class="card mb-4">
+    <div class="card-header card-header-green"><i class="bi bi-person-lines-fill me-1"></i> Ficha del Paciente — Ana García López</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>DNI:</strong> 12345678A</li>
+            <li class="list-group-item"><strong>Fecha nac.:</strong> 15/03/1990</li>
+            <li class="list-group-item"><strong>Teléfono:</strong> 612 000 001</li>
+            <li class="list-group-item"><strong>Email:</strong> ana@email.com</li>
+            <li class="list-group-item"><strong>Dirección:</strong> C/ Mayor 12, Valencia</li>
+            <li class="list-group-item"><strong>Alergias:</strong> Cacahuetes, Gluten</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="fw-bold">Progreso Reciente</h6>
+          <table class="table table-sm table-bordered">
+            <thead class="table-light"><tr><th>Fecha</th><th>Peso (kg)</th><th>IMC</th></tr></thead>
+            <tbody>
+              <tr><td>01/01/2026</td><td>78,4</td><td>27,2</td></tr>
+              <tr><td>01/02/2026</td><td>76,1</td><td>26,4</td></tr>
+              <tr><td>01/03/2026</td><td>74,5</td><td>25,8</td></tr>
+              <tr><td>01/04/2026</td><td>72,8</td><td>25,2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-4">
+          <h6 class="fw-bold">Próximas Citas</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">📅 20/06/2026 – 10:30 – Presencial</li>
+            <li class="list-group-item">📅 15/07/2026 – 11:00 – Online</li>
+          </ul>
+          <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-sm btn-foodiet"><i class="bi bi-calendar-plus me-1"></i>Nueva cita</button>
+            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-earmark-pdf me-1"></i>Informe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      fetch('https://randomuser.me/api/?results=5')
-      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
-      .then(function(data) {
-        var html = '';
-        data.results.forEach(function(u) {
-          var nombre = u.name.first + ' ' + u.name.last;
-          html += '<tr>' +
-            '<td><img src="' + u.picture.thumbnail + '" class="rounded" style="width:36px;height:36px;object-fit:cover"></td>' +
-            '<td>' + nombre + '</td>' +
-            '<td>' + u.email + '</td>' +
-            '<td>' + u.nat + '</td>' +
-            '<td><button class="btn btn-outline-secondary btn-sm py-0" onclick="mostrarPerfil(' + JSON.stringify(u).replace(/"/g,'&quot;') + ')">Ver</button></td>' +
-            '</tr>';
-        });
-        cuerpo.innerHTML = html;
-      })
-      .catch(function(e) { tabla.style.display = 'none'; err.textContent = 'Error: ' + e.message; });
-    }
+</div>
 
-    function buscarNacionalidad() {
-      var nat = document.getElementById('inputNat').value.trim().toLowerCase();
-      var err = document.getElementById('errorNat');
-      err.textContent = '';
-      document.getElementById('perfilUsuario').style.display = 'none';
-      if (!nat) { err.textContent = 'Escribe un codigo de pais (es, fr, us...).'; return; }
+<footer>
+  <div class="container text-center">
+    <p class="mb-1"><strong>FooDiet</strong> – Clínica Dietética en Valencia</p>
+    <p class="mb-0 small">contacto@foodiet.es &nbsp;|&nbsp; +34 963 00 00 00 &nbsp;|&nbsp; © 2026 FooDiet</p>
+  </div>
+</footer>
 
-      fetch('https://randomuser.me/api/?nat=' + encodeURIComponent(nat))
-      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
-      .then(function(data) {
-        if (!data.results || !data.results.length) { err.textContent = 'Sin resultados.'; return; }
-        mostrarPerfil(data.results[0]);
-      })
-      .catch(function(e) { err.textContent = 'Error: ' + e.message; });
-    }
-
-    function mostrarPerfil(u) {
-      document.getElementById('fotoUsuario').src   = u.picture.large || u.picture.medium;
-      document.getElementById('uNombre').textContent  = u.name.first + ' ' + u.name.last;
-      document.getElementById('uEmail').textContent   = u.email;
-      document.getElementById('uTel').textContent     = u.phone;
-      document.getElementById('uPais').textContent    = u.nat;
-      document.getElementById('uCiudad').textContent  = u.location.city;
-      document.getElementById('uEdad').textContent    = u.dob.age + ' anos';
-      document.getElementById('perfilUsuario').style.display = 'flex';
-      document.getElementById('perfilUsuario').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
