@@ -10,7 +10,7 @@
 
 FooDiet es una plataforma web integral diseñada para la gestión de una clínica de nutrición y dietética personalizada. El sistema permite a los pacientes registrarse, solicitar consultas con nutricionistas, recibir planes de alimentación adaptados a sus necesidades y realizar un seguimiento continuo de sus progresos. La plataforma cubre tanto la atención presencial como la modalidad online.
 
-El proyecto se desarrolla en el marco del módulo intermodular de 1º DAW del IES Font de San Lluis durante el curso 2025-2026. Está dividido en subsistemas independientes, cada uno responsabilidad de un alumno diferente, que en conjunto conforman la solución completa.
+El proyecto se desarrolla en el marco del módulo del proyecto intermodular de 1º DAW del IES Font de San Lluis durante el curso 2025-2026. Está dividido en subsistemas independientes, cada uno responsabilidad de un alumno diferente, que en conjunto conforman la solución completa.
 
 ### 1.2 Subsistemas del sistema
 
