@@ -26,7 +26,6 @@ Foodiet se articula en cuatro subsistemas principales:
 Este documento describe exclusivamente el subsistema de Gestión del Equipo Profesional, que cubre las siguientes funcionalidades definidas en el guion del proyecto:
 
 - Registro y mantenimiento de perfiles de profesionales (nombre, especialidad, horarios, formación).
-- Asignación de pacientes a nutricionistas.
 - Gestión de agenda semanal, vacaciones y sustituciones.
 - Control de acceso a los historiales de pacientes según el rol del profesional.
 
