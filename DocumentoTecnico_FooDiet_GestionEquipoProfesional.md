@@ -82,7 +82,7 @@ El backend está desarrollado en Java sin frameworks externos, siguiendo una arq
 |---|---|
 | `modelo` | Clases POJO que representan cada entidad de la base de datos: Profesional, Rol, Horario, VacacionSustitucion, AsignacionPaciente. |
 | `dao` | Clases de acceso a datos (Data Access Object). Contienen todos los métodos CRUD y se conectan a MySQL mediante JDBC. |
-| `util` | Clase de utilidad para la conexión a la base de datos (ConexionBD). Centraliza la cadena de conexión y las credenciales. |
+| `db` | Clase de utilidad para la conexión a la base de datos (ConexionBD). Centraliza la cadena de conexión y las credenciales. |
 | `main` | Clase principal con menú interactivo por consola (Scanner). Actúa como punto de entrada y demuestra el funcionamiento del sistema. |
 
 ### 3.2 Clases del modelo
