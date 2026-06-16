@@ -18,7 +18,7 @@ Foodiet se articula en cuatro subsistemas principales:
 
 - **Gestión de Pacientes y Citas** — registro de pacientes, reserva de consultas y gestión de pagos.
 - **Gestión de Planes de Alimentación** — creación de dietas, seguimiento nutricional y control de alergias.
-- **Gestión del Equipo Profesional** — perfiles de profesionales, agenda, vacaciones y control de acceso. *(Este subsistema)*
+- **Gestión del Equipo Profesional** — perfiles de profesionales, agenda, vacaciones y control de acceso mediante roles. *(Este subsistema)*
 - **Administración y Estadísticas** — métricas de negocio, informes y exportación de datos.
 
 ### 1.3 Ámbito del subsistema
