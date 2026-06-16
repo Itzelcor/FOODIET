@@ -1,0 +1,11 @@
+package stats.Profesionales;
+
+public class Dietista extends ProfesionalClinica {
+    public Dietista(int id, String nombre, String apellidos,
+                    String email, String telefono, int anosExp, boolean activo) {
+        super(id, nombre, apellidos, email, telefono, anosExp, activo);
+    }
+
+    @Override
+    public String getRol() { return "Dietista"; }
+}

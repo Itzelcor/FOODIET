@@ -1,0 +1,27 @@
+========================================
+  INFORME DE PROGRESO - FooDiet
+  Subsistema de Estadísticas - Itzel
+========================================
+
+ID: 6 | Paciente: 1 | Fecha: 2026-06-12 | Peso: 75.0 kg | IMC: 27.55 | Obs: Objetivo casi alcanzado
+ID: 10 | Paciente: 2 | Fecha: 2026-06-12 | Peso: 82.0 kg | IMC: 25.87 | Obs: Excelente evolución
+ID: 15 | Paciente: 4 | Fecha: 2026-06-12 | Peso: 83.0 kg | IMC: 27.1 | Obs: Objetivo a punto de alcanzarse
+ID: 5 | Paciente: 1 | Fecha: 2026-05-15 | Peso: 76.0 kg | IMC: 27.9 | Obs: Constante y motivada
+ID: 19 | Paciente: 6 | Fecha: 2026-05-10 | Peso: 74.0 kg | IMC: 22.84 | Obs: Bajó al 15% grasa corporal
+ID: 17 | Paciente: 5 | Fecha: 2026-05-01 | Peso: 68.0 kg | IMC: 26.56 | Obs: Buena adaptación al plan
+ID: 4 | Paciente: 1 | Fecha: 2026-04-15 | Peso: 77.1 kg | IMC: 28.31 | Obs: Muy buen progreso este mes
+ID: 14 | Paciente: 4 | Fecha: 2026-04-15 | Peso: 85.5 kg | IMC: 27.92 | Obs: Colesterol bajó a 185, muy bien
+ID: 12 | Paciente: 3 | Fecha: 2026-04-10 | Peso: 66.5 kg | IMC: 25.34 | Obs: Plan completado, peso estabilizado
+ID: 9 | Paciente: 2 | Fecha: 2026-04-01 | Peso: 80.8 kg | IMC: 25.49 | Obs: Rendimiento deportivo mejorando
+ID: 3 | Paciente: 1 | Fecha: 2026-03-15 | Peso: 78.3 kg | IMC: 28.75 | Obs: Ajuste en cenas, sigue bajando
+ID: 20 | Paciente: 7 | Fecha: 2026-03-15 | Peso: 72.0 kg | IMC: 28.86 | Obs: Inicio plan antiinflamatorio
+ID: 18 | Paciente: 6 | Fecha: 2026-03-10 | Peso: 75.0 kg | IMC: 23.15 | Obs: Inicio plan definición, 18% grasa
+ID: 8 | Paciente: 2 | Fecha: 2026-03-01 | Peso: 79.5 kg | IMC: 25.08 | Obs: Ganancia muscular notable
+ID: 16 | Paciente: 5 | Fecha: 2026-03-01 | Peso: 70.0 kg | IMC: 27.34 | Obs: Primera visita, alergia mariscos confirmada
+ID: 2 | Paciente: 1 | Fecha: 2026-02-15 | Peso: 79.1 kg | IMC: 29.05 | Obs: Primera bajada, buen comienzo
+ID: 13 | Paciente: 4 | Fecha: 2026-02-15 | Peso: 88.0 kg | IMC: 28.73 | Obs: Colesterol 210, empezamos dieta
+ID: 11 | Paciente: 3 | Fecha: 2026-02-10 | Peso: 68.0 kg | IMC: 25.91 | Obs: Peso inicial, sin gluten desde hoy
+ID: 7 | Paciente: 2 | Fecha: 2026-02-01 | Peso: 78.0 kg | IMC: 24.6 | Obs: Peso inicial, composición corporal buena
+ID: 1 | Paciente: 1 | Fecha: 2026-01-20 | Peso: 80.0 kg | IMC: 29.38 | Obs: Peso inicial al alta
+
+Total de registros: 20
