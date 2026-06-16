@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FooDiet - Usuarios</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="./logo.png" alt="FooDiet">
+        <span>FooDiet</span>
+      </a>
+      <div class="d-flex flex-wrap gap-3">
+        <a class="nav-link text-white fw-bold" href="usuarios.html">Usuarios</a>
+        <a class="nav-link text-white" href="estadisticas.html">Estadisticas</a>
+        <a class="nav-link text-white" href="profesionales.html">Profesionales</a>
+        <a class="nav-link text-white" href="pacientes.html">Pacientes</a>
+        <a class="nav-link text-white" href="planes.html">Planes</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+
+    <h5 class="seccion-titulo">Administracion de Usuarios</h5>
+
+    <form method="get" action="#" class="row g-2 mb-3">
+      <div class="col-md-3">
+        <input type="text" class="form-control form-control-sm" placeholder="Buscar por email...">
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm">
+          <option value="">Todos los roles</option>
+          <option>administrativo</option>
+          <option>nutricionista</option>
+          <option>dietista</option>
+          <option>paciente</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-success btn-sm">Filtrar</button>
+      </div>
+      <div class="col text-end">
+        <a href="#formNuevo" class="btn btn-outline-success btn-sm">+ Nuevo usuario</a>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered table-hover bg-white">
+        <thead>
+          <tr>
+            <th>ID</th><th>Email</th><th>Rol</th><th>Activo</th><th>Fecha alta</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>admin@foodiet.com</td><td><span class="badge bg-secondary">administrativo</span></td><td class="text-success">Si</td><td>2026-01-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>2</td><td>laura@foodiet.com</td><td><span class="badge bg-primary">nutricionista</span></td><td class="text-success">Si</td><td>2026-01-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>3</td><td>carlos@foodiet.com</td><td><span class="badge bg-warning text-dark">dietista</span></td><td class="text-success">Si</td><td>2026-01-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>4</td><td>sergio@foodiet.com</td><td><span class="badge bg-primary">nutricionista</span></td><td class="text-success">Si</td><td>2026-01-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>5</td><td>ana@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-01-15</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>6</td><td>luis@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-01-20</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>7</td><td>maria@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-02-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>8</td><td>pedro@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-02-10</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>9</td><td>carmen@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-danger">No</td><td>2026-02-15</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-success btn-sm py-0">Activar</a></td></tr>
+          <tr><td>10</td><td>jose@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-03-01</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+          <tr><td>11</td><td>isabel@gmail.com</td><td><span class="badge bg-success">paciente</span></td><td class="text-success">Si</td><td>2026-03-10</td><td><a href="#" class="btn btn-outline-primary btn-sm py-0">Editar</a> <a href="#" class="btn btn-outline-danger btn-sm py-0">Baja</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="formNuevo" class="card border-success mt-3 mb-4">
+      <div class="card-header bg-success text-white small">Nuevo Usuario</div>
+      <div class="card-body">
+        <form method="post" action="#" class="row g-2">
+          <div class="col-md-3"><input type="email" class="form-control form-control-sm" placeholder="email@foodiet.com" required></div>
+          <div class="col-md-3"><input type="password" class="form-control form-control-sm" placeholder="Contrasena"></div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm">
+              <option>paciente</option><option>nutricionista</option><option>dietista</option><option>administrativo</option>
+            </select>
+          </div>
+          <div class="col-auto"><button type="submit" class="btn btn-success btn-sm">Guardar</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- API EXTERNA: icanhazdadjoke -->
+    <div class="card border-secondary mt-4">
+      <div class="card-header bg-secondary text-white small">API externa &mdash; icanhazdadjoke.com</div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">Mientras el becario terminaba el modulo de usuarios conecto esto. Se ha quedado porque al tutor le hizo gracia.</p>
+
+        <div class="mb-3">
+          <button class="btn btn-outline-secondary btn-sm" onclick="cargarChistes()">Cargar 5 chistes</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-sm table-bordered bg-white" id="tablaChistes" style="display:none">
+              <thead><tr><th>#</th><th>Chiste</th></tr></thead>
+              <tbody id="cuerpoChistes"></tbody>
+            </table>
+            <div id="errorChistes" class="text-danger small mt-1"></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <p class="small fw-bold mb-2">Buscar chiste por palabra:</p>
+        <div class="row g-2 mb-2">
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" id="inputChiste" placeholder="Ej: cat, dog, pizza...">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-secondary btn-sm" onclick="buscarChiste()">Buscar</button>
+          </div>
+        </div>
+        <div id="resultadoChiste" class="alert alert-light small" style="display:none"></div>
+        <div id="errorBusquedaChiste" class="text-danger small"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="bg-success text-white text-center py-3">
+    <small>FooDiet &copy; 2026 &middot; IES Font de Sant Lluis &middot; 1 DAW</small>
+  </footer>
+
+  <script>
+    function cargarChistes() {
+      var err = document.getElementById('errorChistes');
+      var tabla = document.getElementById('tablaChistes');
+      var cuerpo = document.getElementById('cuerpoChistes');
+      err.textContent = '';
+      cuerpo.innerHTML = '<tr><td colspan="2" class="text-muted small">Cargando...</td></tr>';
+      tabla.style.display = 'table';
+
+      fetch('https://icanhazdadjoke.com/search?limit=5', {
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        var html = '';
+        data.results.forEach(function(j, i) {
+          html += '<tr><td>' + (i+1) + '</td><td>' + j.joke + '</td></tr>';
+        });
+        cuerpo.innerHTML = html || '<tr><td colspan="2">Sin resultados</td></tr>';
+      })
+      .catch(function(e) {
+        tabla.style.display = 'none';
+        err.textContent = 'No se pudo conectar: ' + e.message;
+      });
+    }
+
+    function buscarChiste() {
+      var term = document.getElementById('inputChiste').value.trim();
+      var res  = document.getElementById('resultadoChiste');
+      var err  = document.getElementById('errorBusquedaChiste');
+      res.style.display = 'none';
+      err.textContent = '';
+      if (!term) { err.textContent = 'Escribe una palabra primero.'; return; }
+
+      fetch('https://icanhazdadjoke.com/search?term=' + encodeURIComponent(term) + '&limit=1', {
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(r) { if (!r.ok) throw new Error('Error ' + r.status); return r.json(); })
+      .then(function(data) {
+        if (data.results.length === 0) {
+          err.textContent = 'No hay chistes sobre "' + term + '". Prueba con otra palabra.';
+        } else {
+          res.textContent = data.results[0].joke;
+          res.style.display = 'block';
+        }
+      })
+      .catch(function(e) { err.textContent = 'Error: ' + e.message; });
+    }
+  </script>
+
+</body>
+</html>
